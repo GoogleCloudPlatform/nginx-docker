@@ -1,0 +1,14 @@
+versions:
+  - dir: '1.10'
+    repo: nginx1
+    tags:
+      - 1.10.3
+      - 1.10
+      - latest
+    from: &from gcr.io/google-appengine/debian8
+    packages:
+      nginx:
+        gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+        major: 1.10
+        version: 1.10.3-1~jessie
+

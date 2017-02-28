@@ -1,0 +1,102 @@
+# Used with http://github.com/GoogleCloudPlatform/runtimes-common/tree/master/docgen
+_templates:
+- &Image launcher.gcr.io/google/nginx
+- &PullCommand gcloud docker -- pull launcher.gcr.io/google/nginx
+- &ServiceArgs
+  name: nginx
+  image: *Image
+- &BaseServerRun
+  <<: *ServiceArgs
+  exposedPorts:
+  - port: 80
+  - port: 443
+- &BaseClientRun
+  name: nginx
+  image: *Image
+  runType: INTERACTIVE_SHELL
+- &BaseExec
+  execType: INTERACTIVE_SHELL
+
+overview:
+  description: |-
+    This image contains an installation Nginx 1.10.3.
+  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1.10.3
+  pullCommand: *PullCommand
+
+taskGroups:
+- title: Running Nginx
+  tasks:
+  - title: Start a Nginx web server
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - run:
+        <<: *BaseServerRun
+  - title: Use a persistent data volume
+    description: |-
+      Web servers process and generate content. Using a persistent volume provides a way for the web server to retain the web content in the event of a container reboot or crash.
+
+      Assume /path/to/your/webcontent is the local path to the content  on your machine.
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - run:
+        <<: *BaseServerRun
+        volumes:
+        - name: webcontent
+          path: /var/www/html
+          emptyPersistentVolume:
+            hostPath: /path/to/your/webcontent
+- title: Web server configuration
+  anchorId: configuration
+  tasks:
+  - title: Using configuration volume
+    runtimes: [DOCKER, KUBERNETES]
+    description: |-
+      Nginx can be configured through the `nginx.conf` file. Creating a configuration volume we can provide nginx with its configuration.
+
+      Assume /path/to/your/nginx.conf is the local path to the configuration file on your machine.
+    instructions:
+    - run:
+        <<: *BaseServerRun
+        volumes:
+        - name: serverconfig
+          path: /etc/nginx/
+          singleFile:
+            hostFile:  /path/to/your/nginx.conf
+- title: Using Nginx
+  description: |-
+    Now that Nginx is deployed you can connect to the container and test the web server.
+
+    Assume /path/to/your/webcontent is the local path to the content on your machine.
+  tasks:
+  - title: Moving the web content to Nginx
+    description: The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created.
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - copy:
+        direction: TO_CONTAINER
+        path: /var/www/html/
+        hostPath:  /path/to/your/webcontent
+        containerFromRun: *BaseServerRun
+  - title: Testing the web server
+    description: Using the curl command we can test that the webserver is returning the correct content.
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - exec:
+        <<: *BaseExec
+        containerName: some-nginx
+        command: curl http://localhost
+
+
+portReference:
+  ports:
+  - port: '80'
+    description: Nginx http default port
+  - port: '443'
+    description: Nginx https secure connection over SSL
+
+volumeReference:
+  volumes:
+  - path: /var/www/html
+    description: Volume location where web server will parse and serve static and dynamic content.
+  - path: /etc/nginx/nginx.conf
+    description: Volume location where web server is configured.
