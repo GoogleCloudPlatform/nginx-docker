@@ -4,7 +4,7 @@ This image contains an installation Nginx 1.10.3.
 
 Pull command:
 ```shell
-gcloud docker -- pull launcher.gcr.io/google/nginx
+gcloud docker -- pull launcher.gcr.io/google/nginx1
 ```
 
 Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1.10.3).
@@ -48,7 +48,7 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx
+    - image: launcher.gcr.io/google/nginx1
       name: nginx
 ```
 
@@ -64,8 +64,6 @@ kubectl expose pod some-nginx --name some-nginx-443 \
 
 Web servers process and generate content. Using a persistent volume provides a way for the web server to retain the web content in the event of a container reboot or crash.
 
-Assume /path/to/your/webcontent is the local path to the content  on your machine.
-
 Copy the following content to `pod.yaml` file, and run `kubectl create -f pod.yaml`.
 ```yaml
 apiVersion: v1
@@ -76,11 +74,11 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx
+    - image: launcher.gcr.io/google/nginx1
       name: nginx
       volumeMounts:
         - name: webcontent
-          mountPath: /var/www/html
+          mountPath: /usr/share/nginx/html/
   volumes:
     - name: webcontent
       persistentVolumeClaim:
@@ -112,13 +110,33 @@ kubectl expose pod some-nginx --name some-nginx-443 \
 
 ### <a name="using-configuration-volume-kubernetes"></a>Using configuration volume
 
-Nginx can be configured through the `nginx.conf` file. Creating a configuration volume we can provide nginx with its configuration.
+Nginx can be configured through the `nginx.conf` file. We also need to setup virtual hosts.
 
-Assume /path/to/your/nginx.conf is the local path to the configuration file on your machine.
+Assume /path/to/your/ is the local directory on your machine, we have to create the file `site.conf` to setup the virtual host.
+
+To view the current nginx config run the following.
+
+```shell
+kubectl exec -it some-nginx -- cat /etc/nginx/nginx.conf
+```
+
+Save the following content with the filename `site.conf` to your local machine.
+
+```
+  server {
+     root /usr/share/nginx/html;
+     index index.html index.htm;
+     server_name localhost;
+     
+     location / {
+       try_files $uri $uri/ /index.html;
+     } 
+  }
+```
 
 Create the following `configmap`:
 ```shell
-kubectl create configmap serverconfig \
+kubectl create configmap virtualhost \
   --from-file=/path/to/your/nginx.conf
 ```
 
@@ -132,15 +150,15 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx
+    - image: launcher.gcr.io/google/nginx1
       name: nginx
       volumeMounts:
-        - name: serverconfig
-          mountPath: /etc/nginx/nginx.conf
+        - name: virtualhost
+          mountPath: /etc/nginx/conf.d/nginx.conf
   volumes:
-    - name: serverconfig
+    - name: virtualhost
       configMap:
-        name: serverconfig
+        name: virtualhost
 ```
 
 Run the following to expose the ports:
@@ -155,21 +173,35 @@ kubectl expose pod some-nginx --name some-nginx-443 \
 
 Now that Nginx is deployed you can connect to the container and test the web server.
 
-Assume /path/to/your/webcontent is the local path to the content on your machine.
+Assume /path/to/your/ is the local directory to the content  on your machine, we will save the file `index.html` there also.
 
 ### <a name="moving-the-web-content-to-nginx-kubernetes"></a>Moving the web content to Nginx
 
-The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created.
+The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created. We also run the chmod command to allow nginx to read `index.html`.
 ```shell
-kubectl cp /path/to/your/webcontent some-nginx:/var/www/html/
+kubectl cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
+```
+
+```shell
+kubectl exec -it some-nginx -- chmod 744 /usr/share/nginx/html/index.html
 ```
 
 ### <a name="testing-the-web-server-kubernetes"></a>Testing the web server
 
-Using the curl command we can test that the webserver is returning the correct content.
+Attach to the webserver.
 
 ```shell
-kubectl exec -it some-nginx -- curl http://localhost
+kubectl exec -it some-nginx -- bash
+```
+
+We need `curl` to test the webserver so we need to install it.
+```
+apt-get install -y curl
+```
+
+We can now use `curl` to see if the webserver returns content.
+```
+curl http://localhost
 ```
 
 # <a name="using-docker"></a>Using Docker
@@ -183,7 +215,7 @@ Use the following content for the `docker-compose.yml` file, then run `docker-co
 version: '2'
 services:
   nginx:
-    image: launcher.gcr.io/google/nginx
+    image: launcher.gcr.io/google/nginx1
 ```
 
 Or you can use `docker run` directly:
@@ -192,23 +224,21 @@ Or you can use `docker run` directly:
 docker run \
   --name some-nginx \
   -d \
-  launcher.gcr.io/google/nginx
+  launcher.gcr.io/google/nginx1
 ```
 
 ### <a name="use-a-persistent-data-volume-docker"></a>Use a persistent data volume
 
 Web servers process and generate content. Using a persistent volume provides a way for the web server to retain the web content in the event of a container reboot or crash.
 
-Assume /path/to/your/webcontent is the local path to the content  on your machine.
-
 Use the following content for the `docker-compose.yml` file, then run `docker-compose up`.
 ```yaml
 version: '2'
 services:
   nginx:
-    image: launcher.gcr.io/google/nginx
+    image: launcher.gcr.io/google/nginx1
     volumes:
-      - /path/to/your/webcontent:/var/www/html
+      - /path/to/your/nginx/web/content/index.html:/usr/share/nginx/html/
 ```
 
 Or you can use `docker run` directly:
@@ -216,27 +246,47 @@ Or you can use `docker run` directly:
 ```shell
 docker run \
   --name some-nginx \
-  -v /path/to/your/webcontent:/var/www/html \
+  -v /path/to/your/nginx/web/content/index.html:/usr/share/nginx/html/ \
   -d \
-  launcher.gcr.io/google/nginx
+  launcher.gcr.io/google/nginx1
 ```
 
 ## <a name="configuration-docker"></a>Web server configuration
 
 ### <a name="using-configuration-volume-docker"></a>Using configuration volume
 
-Nginx can be configured through the `nginx.conf` file. Creating a configuration volume we can provide nginx with its configuration.
+Nginx can be configured through the `nginx.conf` file. We also need to setup virtual hosts.
 
-Assume /path/to/your/nginx.conf is the local path to the configuration file on your machine.
+Assume /path/to/your/ is the local directory on your machine, we have to create the file `site.conf` to setup the virtual host.
+
+To view the current nginx config run the following.
+
+```shell
+docker exec -it some-nginx cat /etc/nginx/nginx.conf
+```
+
+Save the following content with the filename `site.conf` to your local machine.
+
+```
+  server {
+     root /usr/share/nginx/html;
+     index index.html index.htm;
+     server_name localhost;
+     
+     location / {
+       try_files $uri $uri/ /index.html;
+     } 
+  }
+```
 
 Use the following content for the `docker-compose.yml` file, then run `docker-compose up`.
 ```yaml
 version: '2'
 services:
   nginx:
-    image: launcher.gcr.io/google/nginx
+    image: launcher.gcr.io/google/nginx1
     volumes:
-      - /path/to/your/nginx.conf:/etc/nginx/nginx.conf
+      - /path/to/your/nginx.conf:/etc/nginx/conf.d/nginx.conf
 ```
 
 Or you can use `docker run` directly:
@@ -244,30 +294,44 @@ Or you can use `docker run` directly:
 ```shell
 docker run \
   --name some-nginx \
-  -v /path/to/your/nginx.conf:/etc/nginx/nginx.conf \
+  -v /path/to/your/nginx.conf:/etc/nginx/conf.d/nginx.conf \
   -d \
-  launcher.gcr.io/google/nginx
+  launcher.gcr.io/google/nginx1
 ```
 
 ## <a name="using-nginx-docker"></a>Using Nginx
 
 Now that Nginx is deployed you can connect to the container and test the web server.
 
-Assume /path/to/your/webcontent is the local path to the content on your machine.
+Assume /path/to/your/ is the local directory to the content  on your machine, we will save the file `index.html` there also.
 
 ### <a name="moving-the-web-content-to-nginx-docker"></a>Moving the web content to Nginx
 
-The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created.
+The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created. We also run the chmod command to allow nginx to read `index.html`.
 ```shell
-docker cp /path/to/your/webcontent some-nginx:/var/www/html/
+docker cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
+```
+
+```shell
+docker exec -it some-nginx chmod 744 /usr/share/nginx/html/index.html
 ```
 
 ### <a name="testing-the-web-server-docker"></a>Testing the web server
 
-Using the curl command we can test that the webserver is returning the correct content.
+Attach to the webserver.
 
 ```shell
-docker exec -it some-nginx curl http://localhost
+docker exec -it some-nginx bash
+```
+
+We need `curl` to test the webserver so we need to install it.
+```
+apt-get install -y curl
+```
+
+We can now use `curl` to see if the webserver returns content.
+```
+curl http://localhost
 ```
 
 # <a name="references"></a>References
@@ -287,5 +351,5 @@ These are the filesystem paths used by the container image.
 
 | **Path** | **Description** |
 |:---------|:----------------|
-| /var/www/html | Volume location where web server will parse and serve static and dynamic content. |
+| /usr/share/nginx/html | Volume location where web server will parse and serve static and dynamic content. |
 | /etc/nginx/nginx.conf | Volume location where web server is configured. |
