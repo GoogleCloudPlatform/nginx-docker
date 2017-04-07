@@ -89,7 +89,7 @@ taskGroups:
     Assume /path/to/your/ is the local directory to the content  on your machine, we will save the file `index.html` there also.
   tasks:
   - title: Moving the web content to Nginx
-    description: The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created. We also run the chmod command to allow nginx to read `index.html`.
+    description: The web server needs content to serve. We can move the web content to the new persistent volume we created with the command below. We also run the chmod command to allow nginx to read `index.html`.
     runtimes: [DOCKER, KUBERNETES]
     instructions:
     - copy:

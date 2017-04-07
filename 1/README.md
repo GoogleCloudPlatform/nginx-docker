@@ -177,7 +177,7 @@ Assume /path/to/your/ is the local directory to the content  on your machine, we
 
 ### <a name="moving-the-web-content-to-nginx-kubernetes"></a>Moving the web content to Nginx
 
-The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created. We also run the chmod command to allow nginx to read `index.html`.
+The web server needs content to serve. We can move the web content to the new persistent volume we created with the command below. We also run the chmod command to allow nginx to read `index.html`.
 ```shell
 kubectl cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
 ```
@@ -307,7 +307,7 @@ Assume /path/to/your/ is the local directory to the content  on your machine, we
 
 ### <a name="moving-the-web-content-to-nginx-docker"></a>Moving the web content to Nginx
 
-The web server needs content to serve. Using the `kubectl` command we can move the web content to the new persistent volume we created. We also run the chmod command to allow nginx to read `index.html`.
+The web server needs content to serve. We can move the web content to the new persistent volume we created with the command below. We also run the chmod command to allow nginx to read `index.html`.
 ```shell
 docker cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
 ```
