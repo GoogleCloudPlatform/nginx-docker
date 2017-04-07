@@ -196,7 +196,7 @@ kubectl exec -it some-nginx -- bash
 
 We need `curl` to test the webserver so we need to install it.
 ```
-apt-get install -y curl
+apt-get update && apt-get install -y curl
 ```
 
 We can now use `curl` to see if the webserver returns content.
@@ -326,7 +326,7 @@ docker exec -it some-nginx bash
 
 We need `curl` to test the webserver so we need to install it.
 ```
-apt-get install -y curl
+apt-get update && apt-get install -y curl
 ```
 
 We can now use `curl` to see if the webserver returns content.

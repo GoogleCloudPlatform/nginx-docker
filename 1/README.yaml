@@ -111,7 +111,7 @@ taskGroups:
         command: bash
         subcommands:
         - description: We need `curl` to test the webserver so we need to install it.
-          command: apt-get install -y curl
+          command: apt-get update && apt-get install -y curl
         - description: We can now use `curl` to see if the webserver returns content.
           command: curl http://localhost
 
