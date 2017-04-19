@@ -1,0 +1,15 @@
+setup:
+- command: [docker, run, --privileged=true, --name, some-nginx, -d, '$IMAGE']
+- command: [sleep, 5s]
+
+teardown:
+- command: [docker, stop, some-nginx]
+- command: [docker, rm, some-nginx]
+
+target: some-nginx
+tests:
+- name: Check status
+  command: [service, nginx, status]
+  expect:
+    stdout:
+      equals: nginx is running.
