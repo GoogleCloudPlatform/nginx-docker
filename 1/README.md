@@ -1,13 +1,16 @@
 # <a name="about"></a>About
 
-This image contains an installation Nginx 1.10.3.
+This image contains an installation Nginx 1.x.
+
+For more information, see the
+[Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
 
 Pull command:
 ```shell
 gcloud docker -- pull launcher.gcr.io/google/nginx1
 ```
 
-Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1.10.3).
+Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1/1.12).
 
 # <a name="table-of-contents"></a>Table of Contents
 * [Using Kubernetes](#using-kubernetes)

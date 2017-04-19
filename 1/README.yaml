@@ -19,8 +19,11 @@ _templates:
 
 overview:
   description: |-
-    This image contains an installation Nginx 1.10.3.
-  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1.10.3
+    This image contains an installation Nginx 1.x.
+
+    For more information, see the
+    [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
+  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1/1.12
   pullCommand: *PullCommand
 
 taskGroups:

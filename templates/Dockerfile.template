@@ -1,7 +1,8 @@
 FROM {{ .From }}
 
 {{- $nginx := index .Packages "nginx" }}
-ENV NGINX_VERSION  {{ $nginx.Version }}
+
+ENV NGINX_VERSION {{ $nginx.Version }}
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys {{ $nginx.Gpg }} \
 	&& echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
