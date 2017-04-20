@@ -1,6 +1,7 @@
 setup:
 - command: [docker, run, --privileged=true, --name, some-nginx, -d, '$IMAGE']
 - command: [sleep, 5s]
+- command: [docker, exec, some-nginx, sh, -c, 'apt-get update && apt-get install -y curl']
 
 teardown:
 - command: [docker, stop, some-nginx]
@@ -8,8 +9,13 @@ teardown:
 
 target: some-nginx
 tests:
-- name: Check status
+- name: Check service status
   command: [service, nginx, status]
   expect:
     stdout:
       equals: nginx is running.
+- name: Test the web server
+  command: [curl, 'http://localhost']
+  expect:
+    stdout:
+      matches: Welcome to nginx!
