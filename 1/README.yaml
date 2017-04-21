@@ -10,11 +10,9 @@ _templates:
   exposedPorts:
   - port: 80
   - port: 443
-- &BaseClientRun
-  name: nginx
-  image: *Image
-  runType: INTERACTIVE_SHELL
 - &BaseExec
+  execType: ONESHOT
+- &BaseInteractiveExec
   execType: INTERACTIVE_SHELL
 
 overview:
@@ -27,6 +25,7 @@ overview:
   pullCommand: *PullCommand
 
 taskGroups:
+
 - title: Running Nginx
   tasks:
   - title: Start a Nginx web server
@@ -34,86 +33,100 @@ taskGroups:
     instructions:
     - run:
         <<: *BaseServerRun
+    - description: >-
+        For information about how to retain your data across restarts,
+        see [](#use-a-persistent-data-volume).
+    - description: >-
+        For information about how to configure your web server, see
+        [](#configuration).
   - title: Use a persistent data volume
     description: |-
-      Web servers process and generate content. Using a persistent volume provides a way for the web server to retain the web content in the event of a container reboot or crash.
+      To preserve your web server data when the container restarts, put
+      the web content directory on a persistent volume.
     runtimes: [DOCKER, KUBERNETES]
+    anchorId: use-a-persistent-data-volume
     instructions:
+    - description: >-
+        By default, `/usr/share/nginx/html` directory on the container
+        houses all the web content files.
+    - description: >-
+        Also assume that `/my/persistent/dir/www` is the persistent
+        directory on the host.
+      applicableRuntimes: [DOCKER]
     - run:
         <<: *BaseServerRun
         volumes:
         - name: webcontent
-          path: /usr/share/nginx/html/
+          path: /usr/share/nginx/html
           emptyPersistentVolume:
-            hostPath: /path/to/your/nginx/web/content/index.html
+            hostPath: /my/persistent/dir/www
+    - description: >-
+        The web server configuration should also be on a persistent
+        volume. For more information, see [](#configuration).
+
 - title: Web server configuration
   anchorId: configuration
   tasks:
-  - title: Using configuration volume
+  - title: Viewing existing configuration
     runtimes: [DOCKER, KUBERNETES]
-    description: |-
-      Nginx can be configured through the `nginx.conf` file. We also need to setup virtual hosts.
-
-      Assume /path/to/your/ is the local directory on your machine, we have to create the file `site.conf` to setup the virtual host.
-
-      To view the current nginx config run the following.
-
+    description: >-
+      Nginx configuration file is at `/etc/nginx/nginx.conf`.
     instructions:
     - exec:
         <<: *BaseExec
         command: cat /etc/nginx/nginx.conf
-        containerName: some-nginx
-    - description: |-
-        Save the following content with the filename `site.conf` to your local machine.
-
-        ```
-          server {
-             root /usr/share/nginx/html;
-             index index.html index.htm;
-             server_name localhost;
-             
-             location / {
-               try_files $uri $uri/ /index.html;
-             } 
-          }
-        ```
+        containerFromRun: *BaseServerRun
+  - title: Using configuration volume
+    runtimes: [DOCKER, KUBERNETES]
+    description: >-
+      The default `nginx.conf` includes all configuration files under
+      `/etc/nginx/conf.d` directory. If you have a
+      `/path/to/your/site.conf` file locally, you can start the server as
+      followed to mount it under `conf.d` directory.
+    instructions:
     - run:
         <<: *BaseServerRun
         volumes:
-        - name: virtualhost
-          path: /etc/nginx/conf.d/
+        - name: site-conf
+          path: /etc/nginx/conf.d
           singleFile:
-            hostFile:  /path/to/your/nginx.conf
-
-- title: Using Nginx
-  description: |-
-    Now that Nginx is deployed you can connect to the container and test the web server.
-
-    Assume /path/to/your/ is the local directory to the content  on your machine, we will save the file `index.html` there also.
-  tasks:
+            hostFile: /path/to/your/site.conf
   - title: Moving the web content to Nginx
-    description: The web server needs content to serve. We can move the web content to the new persistent volume we created with the command below. We also run the chmod command to allow nginx to read `index.html`.
+    description: >-
+      We can move the web content to the container with the commands below,
+      assuming `/usr/share/nginx/html` is where nginx has been configured
+      to read from.
+    anchorId: move-web-content
     runtimes: [DOCKER, KUBERNETES]
     instructions:
-    - copy:
+    - description: Create the directory if it does not exist yet.
+      exec:
+        <<: *BaseExec
+        containerFromRun: *BaseServerRun
+        command: mkdir -p /usr/share/nginx/html
+    - description: Copy the `index.html` file.
+      copy:
         direction: TO_CONTAINER
         path: /usr/share/nginx/html/index.html
         hostPath:  /path/to/your/index.html
         containerFromRun: *BaseServerRun
-    - exec:
-        <<: *BaseExec
-        containerName: some-nginx
-        command: chmod 744 /usr/share/nginx/html/index.html
-  - title: Testing the web server
-    description: Attach to the webserver.
+    - description: >-
+        Follow instructions in [](#testing-the-web-server), you should get back
+        the content of your `index.html`.
+
+- title: Testing the web server
+  anchorId: testing-the-web-server
+  tasks:
+  - title: Accessing the web server from within the container
     runtimes: [DOCKER, KUBERNETES]
     instructions:
-    - exec:
-        <<: *BaseExec
-        containerName: some-nginx
+    - description: Attach to the webserver.
+      exec:
+        <<: *BaseInteractiveExec
+        containerFromRun: *BaseServerRun
         command: bash
         subcommands:
-        - description: We need `curl` to test the webserver so we need to install it.
+        - description: Install `curl`.
           command: apt-get update && apt-get install -y curl
         - description: We can now use `curl` to see if the webserver returns content.
           command: curl http://localhost
@@ -127,7 +140,9 @@ portReference:
 
 volumeReference:
   volumes:
-  - path: /usr/share/nginx/html
-    description: Volume location where web server will parse and serve static and dynamic content.
-  - path: /etc/nginx/nginx.conf
-    description: Volume location where web server is configured.
+  - path: /etc/nginx
+    description: >-
+      Contains nginx configuration files, including `nginx.conf`.
+      <br><br>
+      The default `nginx.conf` include all `.conf` files under the subdirectory
+      `conf.d`.
