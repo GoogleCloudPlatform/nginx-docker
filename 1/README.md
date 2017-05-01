@@ -6,6 +6,7 @@ For more information, see the
 [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
 
 Pull command:
+
 ```shell
 gcloud docker -- pull launcher.gcr.io/google/nginx1
 ```
@@ -44,6 +45,7 @@ Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlat
 ### <a name="start-a-nginx-web-server-kubernetes"></a>Start a Nginx web server
 
 Copy the following content to `pod.yaml` file, and run `kubectl create -f pod.yaml`.
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -58,6 +60,7 @@ spec:
 ```
 
 Run the following to expose the ports:
+
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
   --type LoadBalancer --port 80 --protocol TCP
@@ -77,6 +80,7 @@ the web content directory on a persistent volume.
 By default, `/usr/share/nginx/html` directory on the container houses all the web content files.
 
 Copy the following content to `pod.yaml` file, and run `kubectl create -f pod.yaml`.
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -111,6 +115,7 @@ spec:
 ```
 
 Run the following to expose the ports:
+
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
   --type LoadBalancer --port 80 --protocol TCP
@@ -135,12 +140,14 @@ kubectl exec some-nginx -- cat /etc/nginx/nginx.conf
 The default `nginx.conf` includes all configuration files under `/etc/nginx/conf.d` directory. If you have a `/path/to/your/site.conf` file locally, you can start the server as followed to mount it under `conf.d` directory.
 
 Create the following `configmap`:
+
 ```shell
 kubectl create configmap site-conf \
   --from-file=/path/to/your/site.conf
 ```
 
 Copy the following content to `pod.yaml` file, and run `kubectl create -f pod.yaml`.
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -162,6 +169,7 @@ spec:
 ```
 
 Run the following to expose the ports:
+
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
   --type LoadBalancer --port 80 --protocol TCP
@@ -180,6 +188,7 @@ kubectl exec some-nginx -- mkdir -p /usr/share/nginx/html
 ```
 
 Copy the `index.html` file.
+
 ```shell
 kubectl cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
 ```
@@ -197,11 +206,13 @@ kubectl exec -it some-nginx -- bash
 ```
 
 Install `curl`.
+
 ```
 apt-get update && apt-get install -y curl
 ```
 
 We can now use `curl` to see if the webserver returns content.
+
 ```
 curl http://localhost
 ```
@@ -213,6 +224,7 @@ curl http://localhost
 ### <a name="start-a-nginx-web-server-docker"></a>Start a Nginx web server
 
 Use the following content for the `docker-compose.yml` file, then run `docker-compose up`.
+
 ```yaml
 version: '2'
 services:
@@ -244,6 +256,7 @@ By default, `/usr/share/nginx/html` directory on the container houses all the we
 Also assume that `/my/persistent/dir/www` is the persistent directory on the host.
 
 Use the following content for the `docker-compose.yml` file, then run `docker-compose up`.
+
 ```yaml
 version: '2'
 services:
@@ -281,6 +294,7 @@ docker exec some-nginx cat /etc/nginx/nginx.conf
 The default `nginx.conf` includes all configuration files under `/etc/nginx/conf.d` directory. If you have a `/path/to/your/site.conf` file locally, you can start the server as followed to mount it under `conf.d` directory.
 
 Use the following content for the `docker-compose.yml` file, then run `docker-compose up`.
+
 ```yaml
 version: '2'
 services:
@@ -312,6 +326,7 @@ docker exec some-nginx mkdir -p /usr/share/nginx/html
 ```
 
 Copy the `index.html` file.
+
 ```shell
 docker cp /path/to/your/index.html some-nginx:/usr/share/nginx/html/index.html
 ```
@@ -329,11 +344,13 @@ docker exec -it some-nginx bash
 ```
 
 Install `curl`.
+
 ```
 apt-get update && apt-get install -y curl
 ```
 
 We can now use `curl` to see if the webserver returns content.
+
 ```
 curl http://localhost
 ```
