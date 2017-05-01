@@ -44,7 +44,7 @@ overview:
 
     For more information, see the
     [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
-  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1/1.12
+  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1
   pullCommand: *PullCommand
 
 taskGroups:

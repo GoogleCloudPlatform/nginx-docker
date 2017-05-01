@@ -10,7 +10,7 @@ Pull command:
 gcloud docker -- pull launcher.gcr.io/google/nginx1
 ```
 
-Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1/1.12).
+Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1).
 
 # <a name="table-of-contents"></a>Table of Contents
 * [Using Kubernetes](#using-kubernetes)
