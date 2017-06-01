@@ -1,15 +1,16 @@
 FROM {{ .From }}
 
 {{- $nginx := index .Packages "nginx" }}
+{{- $isMainline := eq .Dir "1/1.13" }}
 
 ENV NGINX_VERSION {{ $nginx.Version }}
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys {{ $nginx.Gpg }} \
-	{{- if eq ($nginx.Version) "1.13.0-1~jessie" }}
+{{- if $isMainline }}
 	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
-	{{- else }}
+{{- else }}
 	&& echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-	{{- end }}
+{{- end }}
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
