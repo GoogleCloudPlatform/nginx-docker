@@ -4,7 +4,7 @@ FROM gcr.io/google-appengine/debian8
 COPY download_source /tmp
 RUN /tmp/download_source blacklist-all-current
 
-ENV NGINX_VERSION 1.13.1-1~jessie
+ENV NGINX_VERSION 1.13.2-1~jessie
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
 	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
