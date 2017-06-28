@@ -25,7 +25,7 @@ versions:
   - dir: '1/1.13'
     repo: nginx1
     tags:
-      - '1.13.0'
+      - '1.13.2'
       - '1.13'
       - latest
       - mainline
