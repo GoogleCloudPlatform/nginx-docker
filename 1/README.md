@@ -231,6 +231,9 @@ services:
   nginx:
     container_name: some-nginx
     image: launcher.gcr.io/google/nginx1
+    ports:
+      - '80:80'
+      - '443:443'
 ```
 
 Or you can use `docker run` directly:
@@ -238,6 +241,8 @@ Or you can use `docker run` directly:
 ```shell
 docker run \
   --name some-nginx \
+  -p 80:80 \
+  -p 443:443 \
   -d \
   launcher.gcr.io/google/nginx1
 ```
@@ -263,6 +268,9 @@ services:
   nginx:
     container_name: some-nginx
     image: launcher.gcr.io/google/nginx1
+    ports:
+      - '80:80'
+      - '443:443'
     volumes:
       - /my/persistent/dir/www:/usr/share/nginx/html
 ```
@@ -272,6 +280,8 @@ Or you can use `docker run` directly:
 ```shell
 docker run \
   --name some-nginx \
+  -p 80:80 \
+  -p 443:443 \
   -v /my/persistent/dir/www:/usr/share/nginx/html \
   -d \
   launcher.gcr.io/google/nginx1
@@ -301,6 +311,9 @@ services:
   nginx:
     container_name: some-nginx
     image: launcher.gcr.io/google/nginx1
+    ports:
+      - '80:80'
+      - '443:443'
     volumes:
       - /path/to/your/site.conf:/etc/nginx/conf.d/site.conf
 ```
@@ -310,6 +323,8 @@ Or you can use `docker run` directly:
 ```shell
 docker run \
   --name some-nginx \
+  -p 80:80 \
+  -p 443:443 \
   -v /path/to/your/site.conf:/etc/nginx/conf.d/site.conf \
   -d \
   launcher.gcr.io/google/nginx1
