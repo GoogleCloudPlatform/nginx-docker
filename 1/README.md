@@ -5,7 +5,7 @@ This image contains an installation Nginx 1.x.
 For more information, see the
 [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
 
-Pull command:
+Pull command (first install [gcloud](https://cloud.google.com/sdk/downloads)):
 
 ```shell
 gcloud docker -- pull launcher.gcr.io/google/nginx1
@@ -40,6 +40,9 @@ Dockerfile for this image can be found [here](https://github.com/GoogleCloudPlat
 
 # <a name="using-kubernetes"></a>Using Kubernetes
 
+Consult [Launcher container documentation](https://cloud.google.com/launcher/docs/launcher-container)
+for additional information about setting up your Kubernetes environment.
+
 ## <a name="running-nginx-kubernetes"></a>Running Nginx
 
 ### <a name="start-a-nginx-web-server-kubernetes"></a>Start a Nginx web server
@@ -59,7 +62,10 @@ spec:
       name: nginx
 ```
 
-Run the following to expose the ports:
+Run the following to expose the ports.
+Depending on your cluster setup, this might expose your service to the
+Internet with an external IP address. For more information, consult
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/).
 
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
@@ -114,7 +120,10 @@ spec:
       storage: 5Gi
 ```
 
-Run the following to expose the ports:
+Run the following to expose the ports.
+Depending on your cluster setup, this might expose your service to the
+Internet with an external IP address. For more information, consult
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/).
 
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
@@ -168,7 +177,10 @@ spec:
         name: site-conf
 ```
 
-Run the following to expose the ports:
+Run the following to expose the ports.
+Depending on your cluster setup, this might expose your service to the
+Internet with an external IP address. For more information, consult
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/).
 
 ```shell
 kubectl expose pod some-nginx --name some-nginx-80 \
@@ -218,6 +230,9 @@ curl http://localhost
 ```
 
 # <a name="using-docker"></a>Using Docker
+
+Consult [Launcher container documentation](https://cloud.google.com/launcher/docs/launcher-container)
+for additional information about setting up your Docker environment.
 
 ## <a name="running-nginx-docker"></a>Running Nginx
 
