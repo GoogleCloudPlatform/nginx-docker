@@ -25,7 +25,7 @@ versions:
   - dir: '1/1.13'
     repo: nginx1
     tags:
-      - '1.13.3'
+      - '1.13.4'
       - '1.13'
       - latest
       - mainline
@@ -33,7 +33,7 @@ versions:
     packages:
       nginx:
         gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-        version: 1.13.3-1~jessie
+        version: 1.13.4-1~jessie
   - dir: '1/1.12'
     repo: nginx1
     tags:
