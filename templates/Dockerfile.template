@@ -1,20 +1,12 @@
 FROM {{ .From }}
 
-# Get the list of packages from the base image.
-COPY download_source /tmp
-RUN /tmp/download_source blacklist-all-current
-
 {{- $nginx := index .Packages "nginx" }}
-{{- $isMainline := eq .Dir "1/1.13" }}
+{{- $version := index .Tags 0 }}
 
 ENV NGINX_VERSION {{ $nginx.Version }}
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys {{ $nginx.Gpg }} \
-{{- if $isMainline }}
-	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
-{{- else }}
-	&& echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-{{- end }}
+	&& echo "deb http://nginx.org/packages/{{- if eq $version "mainline" }}mainline/{{- end }}debian/ jessie nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
@@ -35,6 +27,3 @@ EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Download source code for GPL packages.
-RUN /tmp/download_source download /usr/local/src \
-	&& rm /tmp/download_source

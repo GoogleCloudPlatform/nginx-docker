@@ -21,25 +21,29 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+_variables:
+  from: &from gcr.io/google-appengine/debian8
+  gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+
 versions:
   - dir: '1/1.13'
     repo: nginx1
     tags:
+      - 'mainline'
       - '1.13.4'
       - '1.13'
-      - latest
-      - mainline
-    from: &from gcr.io/google-appengine/debian8
+      - 'latest'
+    from: *from
     packages:
       nginx:
-        gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+        gpg: *gpg
         version: 1.13.4-1~jessie
   - dir: '1/1.12'
     repo: nginx1
     tags:
+      - 'stable'
       - '1.12.1'
       - '1.12'
-      - stable
     from: *from
     packages:
       nginx:

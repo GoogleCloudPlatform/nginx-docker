@@ -1,9 +1,5 @@
 FROM gcr.io/google-appengine/debian8
 
-# Get the list of packages from the base image.
-COPY download_source /tmp
-RUN /tmp/download_source blacklist-all-current
-
 ENV NGINX_VERSION 1.13.4-1~jessie
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
@@ -28,6 +24,3 @@ EXPOSE 80 443
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Download source code for GPL packages.
-RUN /tmp/download_source download /usr/local/src \
-	&& rm /tmp/download_source
