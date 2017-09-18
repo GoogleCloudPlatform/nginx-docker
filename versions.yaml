@@ -37,7 +37,7 @@ versions:
     packages:
       nginx:
         gpg: *gpg
-        version: 1.13.5-2~jessie
+        version: 1.13.5*
   - dir: '1/1.12'
     repo: nginx1
     tags:
@@ -48,4 +48,4 @@ versions:
     packages:
       nginx:
         gpg: *gpg
-        version: 1.12.1-1~jessie
+        version: 1.12.1*
