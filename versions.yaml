@@ -30,14 +30,14 @@ versions:
     repo: nginx1
     tags:
       - 'mainline'
-      - '1.13.5'
+      - '1.13.6'
       - '1.13'
       - 'latest'
     from: *from
     packages:
       nginx:
         gpg: *gpg
-        version: 1.13.5*
+        version: 1.13.6*
   - dir: '1/1.12'
     repo: nginx1
     tags:
