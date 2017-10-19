@@ -42,10 +42,10 @@ versions:
     repo: nginx1
     tags:
       - 'stable'
-      - '1.12.1'
+      - '1.12.2'
       - '1.12'
     from: *from
     packages:
       nginx:
         gpg: *gpg
-        version: 1.12.1*
+        version: 1.12.2*
