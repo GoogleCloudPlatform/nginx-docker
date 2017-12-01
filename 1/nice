@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.alpha.kubernetes.io/storage-class: "default"
+    volume.beta.kubernetes.io/storage-provisioner: "kubernetes.io/gce-pd"
+  creationTimestamp: 2017-12-01T03:01:24Z
+  name: webcontent
+  namespace: nginx.conf
+  resourceVersion: "482703"
+  selfLink: /api/v1/namespaces/default/persistentvolumeclaims/webcontent
+  uid: "eac4b4aa-d643-11e7-9a44-42010a800320"
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+  volumeName: pvc-eac4b4aa-d643-11e7-9a44-42010a800320
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  phase: Bound
+  apiVersion: v1
+kind: pod
+metadata:
+  name: some-nginx
+  labels:
+    name: some-nginx
+spec:
+  containers: 
+    - image: launcher.gcr.io/google/nginx1
+      name: nginx
+      volumeMounts:/etc/nginx/conf.d
+        - name: nginx.conf
+          mountPath: /etc/nginx/conf.d
+  volumes: nginx.conf
+    - name: saturrn-hex99.com.conf
+      configMap: /path/to/your/site.conf
+        name: saturn-hex99.com.conf
