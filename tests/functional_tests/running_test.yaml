@@ -22,15 +22,15 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 setup:
-- command: [docker, run, --privileged=true, --name, some-nginx, -d, '$IMAGE']
+- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -d, '$IMAGE']
 - command: [sleep, 5s]
-- command: [docker, exec, some-nginx, sh, -c, 'apt-get update && apt-get install -y curl']
+- command: [docker, exec, some-nginx-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
 
 teardown:
-- command: [docker, stop, some-nginx]
-- command: [docker, rm, some-nginx]
+- command: [docker, stop, some-nginx-$UNIQUE-id]
+- command: [docker, rm, some-nginx-$UNIQUE-id]
 
-target: some-nginx
+target: some-nginx-$UNIQUE-id
 tests:
 - name: Check service status
   command: [service, nginx, status]
