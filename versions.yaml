@@ -22,8 +22,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 _variables:
-  from: &from gcr.io/google-appengine/debian8
+  from: &from gcr.io/google-appengine/debian9
   gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+  gosu: &gosu
+    version: '1.10'
+    gpg: B42F6819007F00F88E364FD4036A9C25BF357DD4
 
 versions:
   - dir: '1/1.13'
@@ -35,6 +38,7 @@ versions:
       - 'latest'
     from: *from
     packages:
+      gosu: *gosu
       nginx:
         gpg: *gpg
         version: 1.13.9*
@@ -46,6 +50,7 @@ versions:
       - '1.12'
     from: *from
     packages:
+      gosu: *gosu
       nginx:
         gpg: *gpg
         version: 1.12.2*

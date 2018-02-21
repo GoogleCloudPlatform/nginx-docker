@@ -1,9 +1,44 @@
-FROM gcr.io/google-appengine/debian8
+FROM gcr.io/google-appengine/debian9
 
 ENV NGINX_VERSION 1.12.2*
 
-RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-	&& echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+# grab gosu for easy step-down from root
+ENV GOSU_VERSION 1.10
+
+RUN set -x \
+        if ! command -v gpg > /dev/null; then \
+                apt-get update; \
+                apt-get install -y --no-install-recommends \
+                        gnupg \
+                        wget \
+                        dirmngr \
+                ; \
+                rm -rf /var/lib/apt/lists/*; \
+        fi
+
+RUN set -x \
+	&& wget -q -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+	&& wget -q -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+# copy source code
+	&& wget -q -O /usr/local/src/gosu.tar.gz "https://github.com/tianon/gosu/archive/$GOSU_VERSION.tar.gz" \
+        && found='' \
+	&& for server in \
+		pool.sks-keyservers.net \
+		ha.pool.sks-keyservers.net \
+		pgp.mit.edu \
+		na.pool.sks-keyservers.net \
+		eu.pool.sks-keyservers.net \
+		oc.pool.sks-keyservers.net \
+		ha.pool.sks-keyservers.net \
+		hkp://p80.pool.sks-keyservers.net:80 \
+		hkp://keyserver.ubuntu.com:80 \
+	; do \
+		gpg --keyserver $server --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+			&& found="yes" && break; \
+	done; test -n "$found" \
+	&& echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+	&& wget http://nginx.org/packages/keys/nginx_signing.key \
+	&& apt-key add nginx_signing.key \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
