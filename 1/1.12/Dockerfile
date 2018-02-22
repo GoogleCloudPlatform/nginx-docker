@@ -7,9 +7,9 @@ RUN set -x \
                 apt-get update; \
                 apt-get install -y --no-install-recommends \
                         gnupg \
-                        wget \
                         dirmngr \
                 ; \
+                apt-get install -y wget; \
                 rm -rf /var/lib/apt/lists/*; \
         fi
 
