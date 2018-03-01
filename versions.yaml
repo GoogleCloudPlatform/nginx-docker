@@ -50,7 +50,6 @@ versions:
   - dir: '1/9-1.13'
     repo: nginx1
     tags:
-      - 'mainline'
       - '1.13.9-debian9'
       - '1.13-debian9'
       - 'latest'
