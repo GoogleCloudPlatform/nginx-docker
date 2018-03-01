@@ -17,10 +17,14 @@ RUN set -x \
         fi
 
 RUN set -x \
-{{- if or (eq .Dir "1/9-1.12") (eq .Dir "1/9-1.13") }}
-        && echo "deb http://nginx.org/packages/{{- if eq $version "mainline" }}mainline/{{- end }}debian/ stretch nginx" >> /etc/apt/sources.list \
-{{- else if or (eq .Dir "1/8-1.12") (eq .Dir "1/8-1.13") }}
+{{- if eq .Dir "1/9-1.13" }}
+        && echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
+{{- else if eq .Dir "1/8-1.13" }}
+        && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+{{- else if eq .Dir "1/8-1.12" }}
         && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
+{{- else if eq .Dir "1/9-1.12" }}
+        && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
 {{- end }}
         && wget http://nginx.org/packages/keys/nginx_signing.key \
         && apt-key add nginx_signing.key \
