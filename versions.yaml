@@ -27,7 +27,7 @@ _variables:
   gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 
 versions:
-  - dir: '1/8-1.13'
+  - dir: '1/debian8/1.13'
     repo: nginx1
     tags:
       - '1.13.9-debian8'
@@ -37,7 +37,7 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.13.9*
-  - dir: '1/8-1.12'
+  - dir: '1/debian8/1.12'
     repo: nginx1
     tags:
       - '1.12.2-debian8'
@@ -47,7 +47,7 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.12.2*
-  - dir: '1/9-1.13'
+  - dir: '1/debian9/1.13'
     repo: nginx1
     tags:
       - '1.13.9-debian9'
@@ -58,12 +58,12 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.13.9*
-  - dir: '1/9-1.12'
+  - dir: '1/debian9/1.12'
     repo: nginx1
     tags:
-      - 'stable'
       - '1.12.2-debian9'
       - '1.12-debian9'
+      - 'stable'
     from: *from9
     packages:
         nginx:
