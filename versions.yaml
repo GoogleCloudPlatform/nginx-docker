@@ -29,11 +29,10 @@ _variables:
 versions:
   - dir: '1/debian8/1.13'
     repo: nginx1
+    cmd: "&& echo \"deb http://nginx.org/packages/mainline/debian/ jessie nginx\" >> /etc/apt/sources.list"
     tags:
       - '1.13.9-debian8'
       - '1.13-debian8'
-      - '1.13'
-      - '1.13.9'
     from: *from8
     packages:
         nginx:
@@ -41,11 +40,10 @@ versions:
           version: 1.13.9*
   - dir: '1/debian8/1.12'
     repo: nginx1
+    cmd: "&& echo \"deb http://nginx.org/packages/debian/ jessie nginx\" >> /etc/apt/sources.list"
     tags:
       - '1.12.2-debian8'
       - '1.12-debian8'
-      - '1.12'
-      - '1.12.2'
     from: *from8
     packages:
         nginx:
@@ -53,6 +51,7 @@ versions:
           version: 1.12.2*
   - dir: '1/debian9/1.13'
     repo: nginx1
+    cmd: "&& echo \"deb http://nginx.org/packages/mainline/debian/ stretch nginx\" >> /etc/apt/sources.list"
     tags:
       - '1.13.9-debian9'
       - '1.13-debian9'
@@ -64,6 +63,7 @@ versions:
           version: 1.13.9*
   - dir: '1/debian9/1.12'
     repo: nginx1
+    cmd: "&& echo \"deb http://nginx.org/packages/debian/ stretch nginx\" >> /etc/apt/sources.list"
     tags:
       - '1.12.2-debian9'
       - '1.12-debian9'
