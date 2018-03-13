@@ -2,6 +2,7 @@ FROM {{ .From }}
 
 {{- $nginx := index .Packages "nginx" }}
 {{- $version := index .Tags 0 }}
+{{- $cmd1 := index .TemplateArgs "debian_repo" }}
 
 ENV NGINX_VERSION {{ $nginx.Version }}
 
@@ -17,7 +18,7 @@ RUN set -x \
         fi
 
 RUN set -x \
-{{ .Custom }} \
+        {{ $cmd1 }} \
         && wget http://nginx.org/packages/keys/nginx_signing.key \
         && apt-key add nginx_signing.key \
         && apt-get update \
