@@ -30,15 +30,15 @@ versions:
   - dir: '1/debian8/1.13'
     repo: nginx1
     tags:
-      - '1.13.9-debian8'
+      - '1.13.10-debian8'
       - '1.13-debian8'
-      - '1.13.9'
+      - '1.13.10'
       - '1.13'
     from: *from8
     packages:
         nginx:
           gpg: *gpg
-          version: 1.13.9*
+          version: 1.13.10*
   - dir: '1/debian8/1.12'
     repo: nginx1
     tags:
@@ -54,14 +54,14 @@ versions:
   - dir: '1/debian9/1.13'
     repo: nginx1
     tags:
-      - '1.13.9-debian9'
+      - '1.13.10-debian9'
       - '1.13-debian9'
       - 'latest'
     from: *from9
     packages:
         nginx:
           gpg: *gpg
-          version: 1.13.9*
+          version: 1.13.10*
   - dir: '1/debian9/1.12'
     repo: nginx1
     tags:
