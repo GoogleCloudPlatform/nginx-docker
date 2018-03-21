@@ -34,6 +34,8 @@ versions:
     tags:
       - '1.13.9-debian8'
       - '1.13-debian8'
+      - '1.13.9'
+      - '1.13'
     from: *from8
     packages:
         nginx:
@@ -46,6 +48,8 @@ versions:
     tags:
       - '1.12.2-debian8'
       - '1.12-debian8'
+      - '1.12.2'
+      - '1.12'
     from: *from8
     packages:
         nginx:
