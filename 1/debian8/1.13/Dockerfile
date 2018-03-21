@@ -1,6 +1,6 @@
 FROM gcr.io/google-appengine/debian8
 
-ENV NGINX_VERSION 1.13.9*
+ENV NGINX_VERSION 1.13.10*
 
 RUN set -x \
         if ! command -v gpg > /dev/null; then \
