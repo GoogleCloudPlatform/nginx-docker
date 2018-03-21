@@ -29,6 +29,9 @@ _variables:
 versions:
   - dir: '1/debian8/1.13'
     repo: nginx1
+    templateArgs:
+      repo: 'http://nginx.org/packages/mainline/debian/'
+      os: 'jessie'
     tags:
       - '1.13.9-debian8'
       - '1.13-debian8'
@@ -41,6 +44,9 @@ versions:
           version: 1.13.9*
   - dir: '1/debian8/1.12'
     repo: nginx1
+    templateArgs:
+      repo: 'http://nginx.org/packages/debian/'
+      os: 'jessie'
     tags:
       - '1.12.2-debian8'
       - '1.12-debian8'
@@ -53,6 +59,9 @@ versions:
           version: 1.12.2*
   - dir: '1/debian9/1.13'
     repo: nginx1
+    templateArgs:
+      repo: 'http://nginx.org/packages/mainline/debian/'
+      os: 'stretch'
     tags:
       - '1.13.9-debian9'
       - '1.13-debian9'
@@ -64,6 +73,9 @@ versions:
           version: 1.13.9*
   - dir: '1/debian9/1.12'
     repo: nginx1
+    templateArgs:
+      repo: 'http://nginx.org/packages/debian/'
+      os: 'stretch'
     tags:
       - '1.12.2-debian9'
       - '1.12-debian9'
