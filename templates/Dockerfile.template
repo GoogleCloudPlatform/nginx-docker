@@ -2,6 +2,7 @@ FROM {{ .From }}
 
 {{- $nginx := index .Packages "nginx" }}
 {{- $version := index .Tags 0 }}
+{{- $cmd1 := index .TemplateArgs "debian_repo" }}
 
 ENV NGINX_VERSION {{ $nginx.Version }}
 
@@ -17,15 +18,7 @@ RUN set -x \
         fi
 
 RUN set -x \
-{{- if eq .Dir "1/debian9/1.13" }}
-        && echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
-{{- else if eq .Dir "1/debian8/1.13" }}
-        && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
-{{- else if eq .Dir "1/debian8/1.12" }}
-        && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
-{{- else if eq .Dir "1/debian9/1.12" }}
-        && echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
-{{- end }}
+        {{ $cmd1 }} \
         && wget http://nginx.org/packages/keys/nginx_signing.key \
         && apt-key add nginx_signing.key \
         && apt-get update \
