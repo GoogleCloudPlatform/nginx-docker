@@ -3,15 +3,12 @@ FROM gcr.io/google-appengine/debian8
 ENV NGINX_VERSION 1.12.2*
 
 RUN set -x \
-        if ! command -v gpg > /dev/null; then \
-                apt-get update; \
-                apt-get install -y --no-install-recommends \
-                        gnupg \
-                        dirmngr \
-                ; \
-                apt-get install -y wget; \
-                rm -rf /var/lib/apt/lists/*; \
-        fi
+        && apt-get update \
+        && apt-get install -y wget dirmngr \
+	&& if ! command -v gpg > /dev/null; then \
+                apt-get install -y --no-install-recommends gnupg; \
+        fi \
+	&& rm -rf /var/lib/apt/lists/*;
 
 RUN set -x \
         && echo "deb http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list \
