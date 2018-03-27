@@ -4,10 +4,7 @@ ENV NGINX_VERSION 1.12.2*
 
 RUN set -x \
         && apt-get update \
-        && apt-get install -y wget dirmngr \
-        && if ! command -v gpg > /dev/null; then \
-                apt-get install -y --no-install-recommends gnupg; \
-        fi \
+        && apt-get install -y gnupg wget dirmngr \
         && rm -rf /var/lib/apt/lists/*;
 
 RUN set -x \
