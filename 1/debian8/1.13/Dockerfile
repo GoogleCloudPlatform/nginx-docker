@@ -4,8 +4,11 @@ ENV NGINX_VERSION 1.13.10*
 
 RUN set -x \
         && apt-get update \
-        && apt-get install -y gnupg wget dirmngr \
-        && rm -rf /var/lib/apt/lists/*;
+        && apt-get install -y \
+                dirmngr \
+                gnupg \
+                wget \
+        && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
         && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
