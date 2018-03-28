@@ -3,15 +3,12 @@ FROM gcr.io/google-appengine/debian8
 ENV NGINX_VERSION 1.13.10*
 
 RUN set -x \
-        if ! command -v gpg > /dev/null; then \
-                apt-get update; \
-                apt-get install -y --no-install-recommends \
-                        gnupg \
-                        dirmngr \
-                ; \
-                apt-get install -y wget; \
-                rm -rf /var/lib/apt/lists/*; \
-        fi
+        && apt-get update \
+        && apt-get install -y \
+                dirmngr \
+                gnupg \
+                wget \
+        && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
         && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
