@@ -1,4 +1,4 @@
-# Copyright (c) 2017, Google Inc.
+# Copyright (c) 2018, Google Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,15 +33,15 @@ versions:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'jessie'
     tags:
-      - '1.13.11-debian8'
+      - '1.13.12-debian8'
       - '1.13-debian8'
-      - '1.13.11'
+      - '1.13.12'
       - '1.13'
     from: *from8
     packages:
         nginx:
           gpg: *gpg
-          version: 1.13.11*
+          version: 1.13.12*
   - dir: '1/debian8/1.12'
     repo: nginx1
     templateArgs:
@@ -63,14 +63,14 @@ versions:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'stretch'
     tags:
-      - '1.13.11-debian9'
+      - '1.13.12-debian9'
       - '1.13-debian9'
       - 'latest'
     from: *from9
     packages:
         nginx:
           gpg: *gpg
-          version: 1.13.11*
+          version: 1.13.12*
   - dir: '1/debian9/1.12'
     repo: nginx1
     templateArgs:
