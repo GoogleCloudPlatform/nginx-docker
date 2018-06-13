@@ -63,6 +63,7 @@ versions:
       - '1.15-debian9'
       - '1.15.0'
       - '1.15'
+      - 'mainline'
       - 'latest'
     from: *from9
     packages:
