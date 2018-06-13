@@ -1,6 +1,6 @@
 FROM gcr.io/google-appengine/debian8
 
-ENV NGINX_VERSION 1.13.12*
+ENV NGINX_VERSION 1.15.0*
 
 RUN set -x \
         && apt-get update \
