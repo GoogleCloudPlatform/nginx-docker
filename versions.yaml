@@ -86,3 +86,6 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.14.0*
+
+cloudbuild:
+  enable_parallel: true
