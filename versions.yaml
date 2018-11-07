@@ -33,35 +33,35 @@ versions:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'jessie'
     tags:
-      - '1.15.5-debian8'
+      - '1.15.6-debian8'
       - '1.15-debian8'
     from: *from8
     packages:
         nginx:
           gpg: *gpg
-          version: 1.15.5*
+          version: 1.15.6*
   - dir: '1/debian8/1.14'
     repo: nginx1
     templateArgs:
       repo: 'http://nginx.org/packages/debian/'
       os: 'jessie'
     tags:
-      - '1.14.0-debian8'
+      - '1.14.1-debian8'
       - '1.14-debian8'
     from: *from8
     packages:
         nginx:
           gpg: *gpg
-          version: 1.14.0*
+          version: 1.14.1*
   - dir: '1/debian9/1.15'
     repo: nginx1
     templateArgs:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'stretch'
     tags:
-      - '1.15.5-debian9'
+      - '1.15.6-debian9'
       - '1.15-debian9'
-      - '1.15.5'
+      - '1.15.6'
       - '1.15'
       - 'mainline'
       - 'latest'
@@ -69,23 +69,23 @@ versions:
     packages:
         nginx:
           gpg: *gpg
-          version: 1.15.5*
+          version: 1.15.6*
   - dir: '1/debian9/1.14'
     repo: nginx1
     templateArgs:
       repo: 'http://nginx.org/packages/debian/'
       os: 'stretch'
     tags:
-      - '1.14.0-debian9'
+      - '1.14.1-debian9'
       - '1.14-debian9'
-      - '1.14.0'
+      - '1.14.1'
       - '1.14'
       - 'stable'
     from: *from9
     packages:
         nginx:
           gpg: *gpg
-          version: 1.14.0*
+          version: 1.14.1*
 
 cloudbuild:
   enable_parallel: true
