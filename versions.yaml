@@ -88,4 +88,4 @@ versions:
           version: 1.14.2*
 
 cloudbuild:
-  enable_parallel: true
+  enable_parallel: false
