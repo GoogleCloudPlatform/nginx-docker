@@ -46,13 +46,13 @@ versions:
       repo: 'http://nginx.org/packages/debian/'
       os: 'jessie'
     tags:
-      - '1.14.1-debian8'
+      - '1.14.2-debian8'
       - '1.14-debian8'
     from: *from8
     packages:
         nginx:
           gpg: *gpg
-          version: 1.14.1*
+          version: 1.14.2*
   - dir: '1/debian9/1.15'
     repo: nginx1
     templateArgs:
@@ -76,16 +76,16 @@ versions:
       repo: 'http://nginx.org/packages/debian/'
       os: 'stretch'
     tags:
-      - '1.14.1-debian9'
+      - '1.14.2-debian9'
       - '1.14-debian9'
-      - '1.14.1'
+      - '1.14.2'
       - '1.14'
       - 'stable'
     from: *from9
     packages:
         nginx:
           gpg: *gpg
-          version: 1.14.1*
+          version: 1.14.2*
 
 cloudbuild:
-  enable_parallel: true
+  enable_parallel: false
