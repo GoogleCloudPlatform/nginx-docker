@@ -32,9 +32,9 @@ versions:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'stretch'
     tags:
-      - '1.15.8-debian9'
+      - '1.15.9-debian9'
       - '1.15-debian9'
-      - '1.15.8'
+      - '1.15.9'
       - '1.15'
       - 'mainline'
       - 'latest'
@@ -42,7 +42,7 @@ versions:
     packages:
         nginx:
           gpg: *gpg
-          version: 1.15.8*
+          version: 1.15.9*
   - dir: '1/debian9/1.14'
     repo: nginx1
     templateArgs:
