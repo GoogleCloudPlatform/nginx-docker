@@ -42,7 +42,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 RUN set -x \
         && cd /usr/local/bin \
         && wget -q -O nginx-prometheus-exporter.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v$EXPORTER_VERSION/nginx-prometheus-exporter-$EXPORTER_VERSION-linux-amd64.tar.gz" \
-        && wget -q -O /usr/src/v$EXPORTER_VERSION.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/archive/v$EXPORTER_VERSION.tar.gz" \
+        && wget -q -O /usr/src/nginx-prometheus-exporter-v$EXPORTER_VERSION.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/archive/v$EXPORTER_VERSION.tar.gz" \
         && echo "{{ $exporter.Gpg }} nginx-prometheus-exporter.tar.gz" | sha256sum -c - \
         && tar -xzf nginx-prometheus-exporter.tar.gz \
         && rm -f nginx-prometheus-exporter.tar.gz
