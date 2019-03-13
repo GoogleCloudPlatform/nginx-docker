@@ -15,22 +15,6 @@
 # limitations under the License.
 
 set -e
-
-tries=5
-
-/usr/sbin/nginx -g "daemon on;"
-set +e
-while [[ $tries -gt 0 ]]; do
-    wget -q -O /dev/null http://localhost
-    if [[ $? -ne 0 ]]; then
-        sleep 1
-        tries=$((tries-1))
-    else
-        break
-    fi
-done
-set -e
-
-/usr/local/bin/nginx-prometheus-exporter
-
-exec "$@"
+# Put nginx-prometheus-exporter in background and wait 5s for http server
+( sleep 5; /usr/local/bin/nginx-prometheus-exporter )  &
+exec /usr/sbin/nginx -g "daemon off;"
