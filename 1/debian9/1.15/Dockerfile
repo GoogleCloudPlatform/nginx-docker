@@ -1,6 +1,6 @@
 FROM gcr.io/google-appengine/debian9
 
-ENV NGINX_VERSION 1.15.9*
+ENV NGINX_VERSION 1.15.10*
 ENV EXPORTER_VERSION 0.3.0
 
 RUN set -x \
