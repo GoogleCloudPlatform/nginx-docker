@@ -160,6 +160,8 @@ portReference:
     description: Nginx http default port
   - port: '443'
     description: Nginx https secure connection over SSL
+  - port: '9113'
+    description: Prometheus metrics exporter
 
 volumeReference:
   volumes:

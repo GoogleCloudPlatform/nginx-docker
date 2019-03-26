@@ -395,6 +395,7 @@ These are the ports exposed by the container image.
 |:---------|:----------------|
 | TCP 80 | Nginx http default port |
 | TCP 443 | Nginx https secure connection over SSL |
+| TCP 9113 | Prometheus metrics exporter |
 
 ## <a name="references-volumes"></a>Volumes
 

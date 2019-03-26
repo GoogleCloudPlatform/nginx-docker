@@ -1,4 +1,4 @@
-# Copyright (c) 2018, Google Inc.
+# Copyright (c) 2017, Google Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -21,49 +21,19 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-_variables:
-  from9: &from9 gcr.io/google-appengine/debian9
-  gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-  exporter: &exporter
-    version: '0.3.0'
-    gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
+setup:
+- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -d, '$IMAGE']
+- command: [sleep, 5s]
+- command: [docker, exec, some-nginx-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
 
-versions:
-  - dir: '1/debian9/1.15'
-    repo: nginx1
-    templateArgs:
-      repo: 'http://nginx.org/packages/mainline/debian/'
-      os: 'stretch'
-    tags:
-      - '1.15.10-debian9'
-      - '1.15-debian9'
-      - '1.15.10'
-      - '1.15'
-      - 'mainline'
-      - 'latest'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: 1.15.10*
-  - dir: '1/debian9/1.14'
-    repo: nginx1
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.14.2-debian9'
-      - '1.14-debian9'
-      - '1.14.2'
-      - '1.14'
-      - 'stable'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: 1.14.2*
+teardown:
+- command: [docker, stop, some-nginx-$UNIQUE-id]
+- command: [docker, rm, some-nginx-$UNIQUE-id]
 
-cloudbuild:
-  enable_parallel: false
+target: some-nginx-$UNIQUE-id
+tests:
+- name: Test Prometheus exporter
+  command: [curl, 'http://localhost:9113/metrics']
+  expect:
+    stdout:
+      matches: '(?m)^nginx_up 1$'
