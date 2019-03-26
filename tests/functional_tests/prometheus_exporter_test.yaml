@@ -36,4 +36,4 @@ tests:
   command: [curl, 'http://localhost:9113/metrics']
   expect:
     stdout:
-      matches: '^nginx_up'
+      matches: '(?m)^nginx_up 1$'
