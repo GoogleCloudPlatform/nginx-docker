@@ -27,6 +27,7 @@ _variables:
   exporter: &exporter
     version: '0.3.0'
     gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
+
 versions:
   - dir: '1/debian9/1.15'
     repo: nginx1
