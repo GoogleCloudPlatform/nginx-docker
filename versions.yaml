@@ -1,69 +1,61 @@
-# Copyright (c) 2018, Google Inc.
-# All rights reserved.
+# Copyright 2017 Google Inc.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-_variables:
-  from9: &from9 gcr.io/google-appengine/debian9
-  gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-  exporter: &exporter
-    version: '0.3.0'
-    gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
-
-versions:
-  - dir: '1/debian9/1.15'
-    repo: nginx1
-    templateArgs:
-      repo: 'http://nginx.org/packages/mainline/debian/'
-      os: 'stretch'
-    tags:
-      - '1.15.12-debian9'
-      - '1.15-debian9'
-      - '1.15.12'
-      - '1.15'
-      - 'mainline'
-      - 'latest'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: 1.15.12*
-  - dir: '1/debian9/1.14'
-    repo: nginx1
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.14.2-debian9'
-      - '1.14-debian9'
-      - '1.14.2'
-      - '1.14'
-      - 'stable'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: 1.14.2*
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 cloudbuild:
-  enable_parallel: false
+  enable_parallel: true
+versions:
+- dir: 1/debian9/1.15
+  excludeTests:
+  - tests/functional_tests/running_test.yaml
+  from: gcr.io/google-appengine/debian9
+  packages:
+    exporter:
+      gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
+      version: 0.3.0
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.15.12*
+  repo: nginx1
+  tags:
+  - '1.15'
+  - 1.15.12
+  - 1.15-debian9
+  - 1.15.12-debian9
+  - latest
+  templateArgs:
+    os: stretch
+    repo: http://nginx.org/packages/mainline/debian/
+  templateSubDir: debian9
+- dir: 1/debian9/1.15
+  excludeTests:
+  - tests/functional_tests/running_test.yaml
+  from: gcr.io/google-appengine/debian9
+  packages:
+    exporter:
+      gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
+      version: 0.3.0
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.15.12*
+  repo: nginx1
+  tags:
+  - '1.15'
+  - 1.15.12
+  - 1.15-debian9
+  - 1.15.12-debian9
+  - latest
+  templateArgs:
+    os: stretch
+    repo: http://nginx.org/packages/mainline/debian/
+  templateSubDir: debian9
