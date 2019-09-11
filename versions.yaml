@@ -47,6 +47,7 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.15.12*
+          minor: '1.15.12'
   - dir: '1/debian9/1.14'
     repo: nginx1
     templateArgs:
