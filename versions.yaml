@@ -64,6 +64,7 @@ versions:
         nginx:
           gpg: *gpg
           version: 1.14.2*
+          minor: '1.14.2'
 
 cloudbuild:
   enable_parallel: false

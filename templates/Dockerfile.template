@@ -8,7 +8,7 @@ FROM {{ .From }}
 
 ENV NGINX_VERSION {{ $nginx.Version }}
 
-ENV C2D_RELEASE=${KUBE_STATE_METRICS_VERSION}
+ENV C2D_RELEASE {{ $nginx.Minor }}
 
 {{- $exporter := index .Packages "exporter" }}
 ENV EXPORTER_VERSION {{ $exporter.Version }}
