@@ -46,7 +46,7 @@ versions:
         exporter: *exporter
         nginx:
           gpg: *gpg
-          version: 1.15.12*
+          version: '1.15.12'
   - dir: '1/debian9/1.14'
     repo: nginx1
     templateArgs:
@@ -63,7 +63,7 @@ versions:
         exporter: *exporter
         nginx:
           gpg: *gpg
-          version: 1.14.2*
+          version: '1.14.2'
 
 cloudbuild:
   enable_parallel: false
