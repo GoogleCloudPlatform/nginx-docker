@@ -6,9 +6,8 @@ FROM {{ .From }}
 {{- $repo := index .TemplateArgs "repo" }}
 {{- $os := index .TemplateArgs "os" }}
 
-ENV NGINX_VERSION {{ $nginx.Version }}
-
-ENV C2D_RELEASE {{ $nginx.Minor }}
+ENV NGINX_VERSION {{ $nginx.Version }}*
+ENV C2D_RELEASE {{ $nginx.Version }}
 
 {{- $exporter := index .Packages "exporter" }}
 ENV EXPORTER_VERSION {{ $exporter.Version }}
