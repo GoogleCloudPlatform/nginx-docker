@@ -1,0 +1,173 @@
+# Copyright (c) 2019, Google Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Used with http://github.com/GoogleCloudPlatform/runtimes-common/tree/master/docgen
+_templates:
+- &Image launcher.gcr.io/google/nginx1
+- &PullCommand gcloud docker -- pull launcher.gcr.io/google/nginx1
+- &ServiceArgs
+  name: nginx
+  image: *Image
+- &BaseServerRun
+  <<: *ServiceArgs
+  exposedPorts:
+  - port: 80
+  - port: 443
+- &BaseExec
+  execType: ONESHOT
+- &BaseInteractiveExec
+  execType: INTERACTIVE_SHELL
+
+overview:
+  description: |-
+    This image contains an installation Nginx 1.x.
+
+    For more information, see the
+    [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
+  dockerfileUrl: https://github.com/GoogleCloudPlatform/nginx-docker/tree/master/1
+  pullCommand: *PullCommand
+
+taskGroups:
+
+- title: Running Nginx
+  tasks:
+  - title: Start a Nginx web server
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - run:
+        <<: *BaseServerRun
+    - description: >-
+        For information about how to retain your data across restarts,
+        see [](#use-a-persistent-data-volume).
+    - description: >-
+        For information about how to configure your web server, see
+        [](#configuration).
+  - title: Use a persistent data volume
+    description: |-
+      To preserve your web server data when the container restarts, put
+      the web content directory on a persistent volume.
+    runtimes: [DOCKER, KUBERNETES]
+    anchorId: use-a-persistent-data-volume
+    instructions:
+    - description: >-
+        By default, `/usr/share/nginx/html` directory on the container
+        houses all the web content files.
+    - description: >-
+        Also assume that `/my/persistent/dir/www` is the persistent
+        directory on the host.
+      applicableRuntimes: [DOCKER]
+    - run:
+        <<: *BaseServerRun
+        volumes:
+        - name: webcontent
+          path: /usr/share/nginx/html
+          emptyPersistentVolume:
+            hostPath: /my/persistent/dir/www
+    - description: >-
+        The web server configuration should also be on a persistent
+        volume. For more information, see [](#configuration).
+
+- title: Web server configuration
+  anchorId: configuration
+  tasks:
+  - title: Viewing existing configuration
+    runtimes: [DOCKER, KUBERNETES]
+    description: >-
+      Nginx configuration file is at `/etc/nginx/nginx.conf`.
+    instructions:
+    - exec:
+        <<: *BaseExec
+        command: cat /etc/nginx/nginx.conf
+        containerFromRun: *BaseServerRun
+  - title: Using configuration volume
+    runtimes: [DOCKER, KUBERNETES]
+    description: >-
+      The default `nginx.conf` includes all configuration files under
+      `/etc/nginx/conf.d` directory. If you have a
+      `/path/to/your/site.conf` file locally, you can start the server as
+      followed to mount it under `conf.d` directory.
+    instructions:
+    - run:
+        <<: *BaseServerRun
+        volumes:
+        - name: site-conf
+          path: /etc/nginx/conf.d
+          singleFile:
+            hostFile: /path/to/your/site.conf
+  - title: Moving the web content to Nginx
+    description: >-
+      We can move the web content to the container with the commands below,
+      assuming `/usr/share/nginx/html` is where nginx has been configured
+      to read from.
+    anchorId: move-web-content
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - description: Create the directory if it does not exist yet.
+      exec:
+        <<: *BaseExec
+        containerFromRun: *BaseServerRun
+        command: mkdir -p /usr/share/nginx/html
+    - description: Copy the `index.html` file.
+      copy:
+        direction: TO_CONTAINER
+        path: /usr/share/nginx/html/index.html
+        hostPath:  /path/to/your/index.html
+        containerFromRun: *BaseServerRun
+    - description: >-
+        Follow instructions in [](#testing-the-web-server), you should get back
+        the content of your `index.html`.
+
+- title: Testing the web server
+  anchorId: testing-the-web-server
+  tasks:
+  - title: Accessing the web server from within the container
+    runtimes: [DOCKER, KUBERNETES]
+    instructions:
+    - description: Attach to the webserver.
+      exec:
+        <<: *BaseInteractiveExec
+        containerFromRun: *BaseServerRun
+        command: bash
+        subcommands:
+        - description: Install `curl`.
+          command: apt-get update && apt-get install -y curl
+        - description: We can now use `curl` to see if the webserver returns content.
+          command: curl http://localhost
+
+portReference:
+  ports:
+  - port: '80'
+    description: Nginx http default port
+  - port: '443'
+    description: Nginx https secure connection over SSL
+  - port: '9113'
+    description: Prometheus metrics exporter
+
+volumeReference:
+  volumes:
+  - path: /etc/nginx
+    description: >-
+      Contains nginx configuration files, including `nginx.conf`.
+      <br><br>
+      The default `nginx.conf` include all `.conf` files under the subdirectory
+      `conf.d`.
