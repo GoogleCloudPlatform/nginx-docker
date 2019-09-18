@@ -31,6 +31,7 @@ _variables:
 versions:
   - dir: '1/debian9/1.15'
     repo: nginx1
+    templateSubDir: nginx
     templateArgs:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'stretch'
@@ -47,8 +48,10 @@ versions:
         nginx:
           gpg: *gpg
           version: '1.15.12'
+
   - dir: '1/debian9/1.14'
     repo: nginx1
+    templateSubDir: nginx
     templateArgs:
       repo: 'http://nginx.org/packages/debian/'
       os: 'stretch'
@@ -64,6 +67,22 @@ versions:
         nginx:
           gpg: *gpg
           version: '1.14.2'
+
+  - dir: 'exporter'
+    repo: nginx-prometheus-exporter0
+    templateSubDir: exporter
+    templateArgs:
+      repo: 'http://nginx.org/packages/mainline/debian/'
+      os: 'stretch'
+    tags:
+      - '0.3.0-debian9'
+      - '0.3-debian9'
+      - '0.3.0'
+      - '0.3'
+      - 'latest'
+    from: *from9
+    packages:
+        exporter: *exporter
 
 cloudbuild:
   enable_parallel: false
