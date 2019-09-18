@@ -35,7 +35,7 @@ teardown:
 
 target: some-nginx-exporter-$UNIQUE-id
 tests:
-- name: Test Prometheus exporter
+- name: Test Prometheus exporter container
   command: [curl, 'http://localhost:9113/metrics']
   expect:
     stdout:

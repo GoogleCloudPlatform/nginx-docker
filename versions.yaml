@@ -83,6 +83,9 @@ versions:
     from: *from9
     packages:
         exporter: *exporter
+    excludeTests:
+    - tests/functional_tests/running_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
 
 cloudbuild:
   enable_parallel: false
