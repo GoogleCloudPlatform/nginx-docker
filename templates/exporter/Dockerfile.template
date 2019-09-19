@@ -1,11 +1,9 @@
 FROM {{ .From }}
-
-
-{{- $exporter := index .Packages "exporter" }}
+{{ $exporter := index .Packages "exporter" }}
 ENV EXPORTER_VERSION {{ $exporter.Version }}
 ENV EXPORTER_SHA256 {{ $exporter.Gpg }}
 
-ENV C2D_RELEASE ${EXPORTER_VERSION}
+ENV C2D_RELEASE {{ $exporter.Version }}
 
 COPY licenses/ /usr/share/doc/
 
