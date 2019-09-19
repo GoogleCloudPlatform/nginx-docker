@@ -3,8 +3,6 @@ FROM gcr.io/google-appengine/debian9
 ENV EXPORTER_VERSION 0.3.0
 ENV EXPORTER_SHA256 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
 
-ENV C2D_RELEASE 0.3.0
-
 COPY licenses/ /usr/share/doc/
 
 RUN set -x \
