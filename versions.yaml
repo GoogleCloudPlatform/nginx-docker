@@ -31,7 +31,7 @@ _variables:
 versions:
   - dir: '1/debian9/1.15'
     repo: nginx1
-    templateSubDir: nginx
+    templateSubDir: nginx-with-exporter
     templateArgs:
       repo: 'http://nginx.org/packages/mainline/debian/'
       os: 'stretch'
@@ -51,7 +51,7 @@ versions:
 
   - dir: '1/debian9/1.14'
     repo: nginx1
-    templateSubDir: nginx
+    templateSubDir: nginx-with-exporter
     templateArgs:
       repo: 'http://nginx.org/packages/debian/'
       os: 'stretch'

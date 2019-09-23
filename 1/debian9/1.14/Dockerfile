@@ -1,3 +1,8 @@
+# WARNING: This Dockerfile installs NGINX Prometheus Exporter and should be used
+# only in versions 1.14.x and 1.15.x. For newest version of NGINX, use template
+# that doesn't install exporter and use exporter as sidecar.
+# For more information, see exporter directory.
+
 FROM gcr.io/google-appengine/debian9
 
 ENV NGINX_VERSION 1.14.2*
