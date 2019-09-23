@@ -22,17 +22,20 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 setup:
-- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -d, '$IMAGE']
+- command: [docker, network, create, -d, bridge, testbridge-$UNIQUE-id]
+- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -p, '8080:8080', --net, testbridge-$UNIQUE-id, -d, 'launcher.gcr.io/google/nginx1:latest']
+- command: [docker, run, --privileged=true, --name, some-nginx-exporter-$UNIQUE-id, -e, 'SCRAPE_URI=http://some-nginx-$UNIQUE-id:8080/stub_status', -p, '9113:9113', --net, testbridge-$UNIQUE-id, -d, '$IMAGE']
 - command: [sleep, 5s]
-- command: [docker, exec, some-nginx-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
+- command: [docker, exec, some-nginx-exporter-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
 
 teardown:
-- command: [docker, stop, some-nginx-$UNIQUE-id]
-- command: [docker, rm, some-nginx-$UNIQUE-id]
+- command: [docker, stop, some-nginx-$UNIQUE-id, some-nginx-exporter-$UNIQUE-id]
+- command: [docker, rm, some-nginx-$UNIQUE-id, some-nginx-exporter-$UNIQUE-id]
+- command: [docker, network, rm, testbridge-$UNIQUE-id]
 
-target: some-nginx-$UNIQUE-id
+target: some-nginx-exporter-$UNIQUE-id
 tests:
-- name: Test Prometheus exporter
+- name: Test Prometheus exporter container
   command: [curl, 'http://localhost:9113/metrics']
   expect:
     stdout:
