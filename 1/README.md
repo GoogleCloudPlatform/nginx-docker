@@ -2,6 +2,12 @@
 
 This image contains an installation Nginx 1.x.
 
+> WARNING: This Dockerfile installs NGINX Prometheus Exporter and should be used
+  only in versions 1.14.x and 1.15.x. For newest version of NGINX, use template
+  that doesn't install exporter and use exporter as sidecar.
+  For more information, see exporter directory.
+
+
 For more information, see the
 [Official Image Launcher Page](https://console.cloud.google.com/launcher/details/google/nginx1).
 
