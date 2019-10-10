@@ -25,8 +25,8 @@ _variables:
   from9: &from9 gcr.io/google-appengine/debian9
   gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
   exporter: &exporter
-    version: '0.3.0'
-    gpg: 31de68284339041fc5539f3b5431276989bea3de3705d932e80cc9f89cc9b21a
+    version: '0.4.2'
+    gpg: '8b3d234844826364615e72ca187844aaecefb6cb639fee2af8b465d95f380fc7'
 
 versions:
   - dir: '1/debian9/1.15'
@@ -73,8 +73,8 @@ versions:
     templateSubDir: exporter
     tags:
       - 'exporter'
-      - 'exporter-0.3'
-      - 'exporter-0.3.0'
+      - 'exporter-0.4'
+      - 'exporter-0.4.2'
     from: *from9
     packages:
         exporter: *exporter
