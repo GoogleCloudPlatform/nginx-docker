@@ -46,6 +46,9 @@ versions:
       nginx:
         gpg: *gpg
         version: '1.17.4'
+    excludeTests:
+    - tests/functional_tests/prometheus_nginx_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
 
   - dir: '1/debian9/1.16'
     repo: nginx1
@@ -65,6 +68,9 @@ versions:
       nginx:
         gpg: *gpg
         version: '1.16.1'
+    excludeTests:
+    - tests/functional_tests/prometheus_nginx_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
 
   - dir: '1/debian9/1.15'
     repo: nginx1
