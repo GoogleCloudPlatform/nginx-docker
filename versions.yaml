@@ -29,27 +29,6 @@ _variables:
     gpg: '8b3d234844826364615e72ca187844aaecefb6cb639fee2af8b465d95f380fc7'
 
 versions:
-  - dir: '1/debian9/1.17'
-    repo: nginx1
-    templateSubDir: nginx
-    templateArgs:
-      repo: 'http://nginx.org/packages/mainline/debian/'
-      os: 'stretch'
-    tags:
-      - '1.17.4-debian9'
-      - '1.17-debian9'
-      - '1.17.4'
-      - '1.17'
-      - 'mainline'
-    from: *from9
-    packages:
-      nginx:
-        gpg: *gpg
-        version: '1.17.4'
-    excludeTests:
-    - tests/functional_tests/prometheus_nginx_test.yaml
-    - tests/functional_tests/prometheus_exporter_test.yaml
-
   - dir: '1/debian9/1.16'
     repo: nginx1
     templateSubDir: nginx
