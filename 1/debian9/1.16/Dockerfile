@@ -7,7 +7,6 @@ FROM gcr.io/google-appengine/debian9
 
 ENV NGINX_VERSION 1.16.1*
 ENV C2D_RELEASE 1.16.1
-ENV EXPORTER_VERSION 0.4.2
 
 RUN set -x \
         && apt-get update \
@@ -39,13 +38,8 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 COPY stub.conf /etc/nginx/conf.d/stub.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
-RUN chmod +rx /usr/local/bin/nginx-prometheus-exporter
 RUN chmod +rx /usr/local/bin/docker-entrypoint.sh
 
-COPY licences/ /usr/share/doc/
-
-# 9113 - port for prometheus metrics
-EXPOSE 80 443 9113
+EXPOSE 80 443
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

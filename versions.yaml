@@ -43,10 +43,9 @@ versions:
       - 'mainline'
     from: *from9
     packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.17.5'
+      nginx:
+        gpg: *gpg
+        version: '1.17.4'
 
   - dir: '1/debian9/1.16'
     repo: nginx1
@@ -63,10 +62,9 @@ versions:
       - 'latest'
     from: *from9
     packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.16.1'
+      nginx:
+        gpg: *gpg
+        version: '1.16.1'
 
   - dir: '1/debian9/1.15'
     repo: nginx1
