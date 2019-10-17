@@ -29,6 +29,28 @@ _variables:
     gpg: '8b3d234844826364615e72ca187844aaecefb6cb639fee2af8b465d95f380fc7'
 
 versions:
+  - dir: '1/debian9/1.16'
+    repo: nginx1
+    templateSubDir: nginx
+    templateArgs:
+      repo: 'http://nginx.org/packages/debian/'
+      os: 'stretch'
+    tags:
+      - '1.16.1-debian9'
+      - '1.16-debian9'
+      - '1.16.1'
+      - '1.16'
+      - 'stable'
+      - 'latest'
+    from: *from9
+    packages:
+      nginx:
+        gpg: *gpg
+        version: '1.16.1'
+    excludeTests:
+    - tests/functional_tests/prometheus_nginx_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
+
   - dir: '1/debian9/1.15'
     repo: nginx1
     templateSubDir: nginx-with-exporter
@@ -41,7 +63,6 @@ versions:
       - '1.15.12'
       - '1.15'
       - 'mainline'
-      - 'latest'
     from: *from9
     packages:
         exporter: *exporter
@@ -60,7 +81,6 @@ versions:
       - '1.14-debian9'
       - '1.14.2'
       - '1.14'
-      - 'stable'
     from: *from9
     packages:
         exporter: *exporter
