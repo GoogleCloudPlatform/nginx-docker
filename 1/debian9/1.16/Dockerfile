@@ -27,7 +27,6 @@ RUN set -x \
                                                 gettext-base \
         && rm -rf /var/lib/apt/lists/*
 
-
 COPY stub.conf /etc/nginx/conf.d/stub.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +rx /usr/local/bin/docker-entrypoint.sh
