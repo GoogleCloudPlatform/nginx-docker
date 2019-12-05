@@ -65,29 +65,10 @@ versions:
       - 'mainline'
     from: *from9
     packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.15.12'
-
-  - dir: '1/debian9/1.14'
-    repo: nginx1
-    templateSubDir: nginx-with-exporter
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.14.2-debian9'
-      - '1.14-debian9'
-      - '1.14.2'
-      - '1.14'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.14.2'
-
+      nginx:
+        gpg: *gpg
+        version: '1.15.12'
+      exporter: *exporter
   - dir: 'exporter'
     repo: nginx1
     templateSubDir: exporter
