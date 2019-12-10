@@ -25,7 +25,7 @@
 
 setup:
 - command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -d, '$IMAGE']
-- command: [sleep, 500s]
+- command: [sleep, 5s]
 - command: [docker, exec, some-nginx-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
 
 teardown:
