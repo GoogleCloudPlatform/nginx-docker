@@ -15,4 +15,9 @@
 # limitations under the License.
 
 set -e
+
+if [[ "${ENABLE_STUB_STATUS}" == "true" ]]; then
+    mv -f /etc/nginx/stub.conf.template /etc/nginx/conf.d/stub.conf
+fi
+
 exec /usr/sbin/nginx -g "daemon off;"

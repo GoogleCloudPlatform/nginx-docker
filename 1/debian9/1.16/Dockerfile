@@ -3,6 +3,8 @@ FROM gcr.io/google-appengine/debian9
 ENV NGINX_VERSION 1.16.1*
 ENV C2D_RELEASE 1.16.1
 
+ENV ENABLE_STUB_STATUS false
+
 RUN set -x \
         && apt-get update \
         && apt-get install -y \
@@ -32,8 +34,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
         && ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY stub.conf /etc/nginx/stub.conf.template
+
 RUN chmod +rx /usr/local/bin/docker-entrypoint.sh
 
-EXPOSE 80 443
+EXPOSE 80 443 8080
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

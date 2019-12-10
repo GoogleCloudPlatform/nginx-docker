@@ -48,8 +48,8 @@ versions:
         gpg: *gpg
         version: '1.16.1'
     excludeTests:
-    - tests/functional_tests/prometheus_nginx_test.yaml
-    - tests/functional_tests/prometheus_exporter_test.yaml
+    - tests/functional_tests/nginx_with_exporter_test.yaml
+    - tests/functional_tests/nginx_exporter_standalone_test.yaml
 
   - dir: '1/debian9/1.15'
     repo: nginx1
@@ -65,28 +65,12 @@ versions:
       - 'mainline'
     from: *from9
     packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.15.12'
-
-  - dir: '1/debian9/1.14'
-    repo: nginx1
-    templateSubDir: nginx-with-exporter
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.14.2-debian9'
-      - '1.14-debian9'
-      - '1.14.2'
-      - '1.14'
-    from: *from9
-    packages:
-        exporter: *exporter
-        nginx:
-          gpg: *gpg
-          version: '1.14.2'
+      nginx:
+        gpg: *gpg
+        version: '1.15.12'
+      exporter: *exporter
+    excludeTests:
+    - tests/functional_tests/nginx_exporter_standalone_test.yaml
 
   - dir: 'exporter'
     repo: nginx1
@@ -99,8 +83,8 @@ versions:
     packages:
         exporter: *exporter
     excludeTests:
-    - tests/functional_tests/running_test.yaml
-    - tests/functional_tests/prometheus_exporter_test.yaml
+    - tests/functional_tests/nginx_webserver_test.yaml
+    - tests/functional_tests/nginx_with_exporter_test.yaml
 
 cloudbuild:
   enable_parallel: false
