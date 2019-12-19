@@ -1,4 +1,4 @@
-# Copyright (c) 2019, Google Inc.
+# Copyright (c) 2019, Google LLC.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -21,70 +21,83 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-_variables:
-  from9: &from9 gcr.io/google-appengine/debian9
-  gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-  exporter: &exporter
-    version: '0.4.2'
-    gpg: '8b3d234844826364615e72ca187844aaecefb6cb639fee2af8b465d95f380fc7'
-
-versions:
-  - dir: '1/debian9/1.16'
-    repo: nginx1
-    templateSubDir: nginx
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.16.1-debian9'
-      - '1.16-debian9'
-      - '1.16.1'
-      - '1.16'
-      - 'stable'
-      - 'latest'
-    from: *from9
-    packages:
-      nginx:
-        gpg: *gpg
-        version: '1.16.1'
-    excludeTests:
-    - tests/functional_tests/nginx_with_exporter_test.yaml
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
-
-  - dir: '1/debian9/1.15'
-    repo: nginx1
-    templateSubDir: nginx-with-exporter
-    templateArgs:
-      repo: 'http://nginx.org/packages/mainline/debian/'
-      os: 'stretch'
-    tags:
-      - '1.15.12-debian9'
-      - '1.15-debian9'
-      - '1.15.12'
-      - '1.15'
-      - 'mainline'
-    from: *from9
-    packages:
-      nginx:
-        gpg: *gpg
-        version: '1.15.12'
-      exporter: *exporter
-    excludeTests:
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
-
-  - dir: 'exporter'
-    repo: nginx1
-    templateSubDir: exporter
-    tags:
-      - 'exporter'
-      - 'exporter-0.4'
-      - 'exporter-0.4.2'
-    from: *from9
-    packages:
-        exporter: *exporter
-    excludeTests:
-    - tests/functional_tests/nginx_webserver_test.yaml
-    - tests/functional_tests/nginx_with_exporter_test.yaml
-
 cloudbuild:
   enable_parallel: false
+versions:
+- dir: 1/debian9/1.17
+  excludeTests:
+  - tests/functional_tests/nginx_with_exporter_test.yaml
+  - tests/functional_tests/nginx_exporter_standalone_test.yaml
+  from: gcr.io/google-appengine/debian9
+  packages:
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.17.6
+  repo: nginx1
+  tags:
+  - 1.17.6-debian9
+  - 1.17-debian9
+  - 1-debian9
+  - 1.17.6
+  - '1.17'
+  - '1'
+  - latest
+  - mainline
+  templateArgs:
+    os: stretch
+    repo: http://nginx.org/packages/mainline/debian/
+  templateSubDir: nginx
+- dir: 1/debian9/1.16
+  excludeTests:
+  - tests/functional_tests/nginx_with_exporter_test.yaml
+  - tests/functional_tests/nginx_exporter_standalone_test.yaml
+  from: gcr.io/google-appengine/debian9
+  packages:
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.16.1
+  repo: nginx1
+  tags:
+  - 1.16.1-debian9
+  - 1.16-debian9
+  - 1.16.1
+  - '1.16'
+  - stable
+  templateArgs:
+    os: stretch
+    repo: http://nginx.org/packages/debian/
+  templateSubDir: nginx
+- dir: 1/debian9/1.15
+  excludeTests:
+  - tests/functional_tests/nginx_exporter_standalone_test.yaml
+  from: gcr.io/google-appengine/debian9
+  packages:
+    exporter:
+      gpg: 42e049d2313ef341f02eea72271d4342ca330a89f68150905c78324052b4b42d
+      version: 0.5.0
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.15.12
+  repo: nginx1
+  tags:
+  - 1.15.12-debian9
+  - 1.15-debian9
+  - 1.15.12
+  - '1.15'
+  templateArgs:
+    os: stretch
+    repo: http://nginx.org/packages/mainline/debian/
+  templateSubDir: nginx-with-exporter
+- dir: exporter
+  from: gcr.io/google-appengine/debian9
+  packages:
+    exporter:
+      gpg: 42e049d2313ef341f02eea72271d4342ca330a89f68150905c78324052b4b42d
+      version: 0.5.0
+  repo: nginx1
+  tags:
+  - exporter
+  - exporter-0.5
+  - exporter-0.5.0
+  templateSubDir: exporter
+

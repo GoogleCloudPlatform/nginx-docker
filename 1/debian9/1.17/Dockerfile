@@ -1,13 +1,9 @@
-# WARNING: This Dockerfile installs NGINX Prometheus Exporter and should be used
-# only in versions 1.14.x and 1.15.x. For newest version of NGINX, use template
-# that doesn't install exporter and use exporter as sidecar.
-# For more information, see exporter directory.
-
 FROM gcr.io/google-appengine/debian9
 
-ENV NGINX_VERSION 1.15.12*
-ENV C2D_RELEASE 1.15.12
-ENV EXPORTER_VERSION 0.5.0
+ENV NGINX_VERSION 1.17.6*
+ENV C2D_RELEASE 1.17.6
+
+ENV ENABLE_STUB_STATUS false
 
 RUN set -x \
         && apt-get update \
@@ -37,23 +33,11 @@ RUN set -x \
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
         && ln -sf /dev/stderr /var/log/nginx/error.log
 
-RUN set -x \
-        && cd /usr/local/bin \
-        && wget -q -O nginx-prometheus-exporter.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v$EXPORTER_VERSION/nginx-prometheus-exporter-$EXPORTER_VERSION-linux-amd64.tar.gz" \
-        && wget -q -O /usr/src/nginx-prometheus-exporter-v$EXPORTER_VERSION.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/archive/v$EXPORTER_VERSION.tar.gz" \
-        && echo "42e049d2313ef341f02eea72271d4342ca330a89f68150905c78324052b4b42d nginx-prometheus-exporter.tar.gz" | sha256sum -c - \
-        && tar -xzf nginx-prometheus-exporter.tar.gz \
-        && rm -f nginx-prometheus-exporter.tar.gz
-
-COPY stub.conf /etc/nginx/conf.d/stub.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY stub.conf /etc/nginx/stub.conf.template
 
-RUN chmod +rx /usr/local/bin/nginx-prometheus-exporter
 RUN chmod +rx /usr/local/bin/docker-entrypoint.sh
 
-COPY licences/ /usr/share/doc/
-
-# 9113 - port for prometheus metrics
-EXPOSE 80 443 9113
+EXPOSE 80 443 8080
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
