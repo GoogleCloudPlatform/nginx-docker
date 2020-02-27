@@ -7,7 +7,7 @@ FROM gcr.io/google-appengine/debian9
 
 ENV NGINX_VERSION 1.15.12*
 ENV C2D_RELEASE 1.15.12
-ENV EXPORTER_VERSION 0.5.0
+ENV EXPORTER_VERSION 0.6.0
 
 RUN set -x \
         && apt-get update \
@@ -41,7 +41,7 @@ RUN set -x \
         && cd /usr/local/bin \
         && wget -q -O nginx-prometheus-exporter.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v$EXPORTER_VERSION/nginx-prometheus-exporter-$EXPORTER_VERSION-linux-amd64.tar.gz" \
         && wget -q -O /usr/src/nginx-prometheus-exporter-v$EXPORTER_VERSION.tar.gz "https://github.com/nginxinc/nginx-prometheus-exporter/archive/v$EXPORTER_VERSION.tar.gz" \
-        && echo "42e049d2313ef341f02eea72271d4342ca330a89f68150905c78324052b4b42d nginx-prometheus-exporter.tar.gz" | sha256sum -c - \
+        && echo "2e8f1038ca8aa5b215ee04379df3f13eb242be5e1721e615ac679381011b06e9 nginx-prometheus-exporter.tar.gz" | sha256sum -c - \
         && tar -xzf nginx-prometheus-exporter.tar.gz \
         && rm -f nginx-prometheus-exporter.tar.gz
 
