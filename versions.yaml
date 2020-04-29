@@ -25,8 +25,8 @@ _variables:
   from9: &from9 gcr.io/google-appengine/debian9
   gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
   exporter: &exporter
-    version: '0.6.0'
-    gpg: '2e8f1038ca8aa5b215ee04379df3f13eb242be5e1721e615ac679381011b06e9'
+    version: '0.7.0'
+    gpg: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
 
 versions:
   - dir: '1/debian9/1.16'
@@ -48,8 +48,8 @@ versions:
         gpg: *gpg
         version: '1.16.1'
     excludeTests:
-    - tests/functional_tests/nginx_with_exporter_test.yaml
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
+    - tests/functional_tests/prometheus_nginx_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
 
   - dir: '1/debian9/1.15'
     repo: nginx1
@@ -69,22 +69,19 @@ versions:
         gpg: *gpg
         version: '1.15.12'
       exporter: *exporter
-    excludeTests:
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
-
   - dir: 'exporter'
     repo: nginx1
     templateSubDir: exporter
     tags:
       - 'exporter'
-      - 'exporter-0.6'
-      - 'exporter-0.6.0'
+      - 'exporter-0.7'
+      - 'exporter-0.7.0'
     from: *from9
     packages:
         exporter: *exporter
     excludeTests:
-    - tests/functional_tests/nginx_webserver_test.yaml
-    - tests/functional_tests/nginx_with_exporter_test.yaml
+    - tests/functional_tests/running_test.yaml
+    - tests/functional_tests/prometheus_exporter_test.yaml
 
 cloudbuild:
   enable_parallel: false
