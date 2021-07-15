@@ -34,7 +34,7 @@ versions:
     templateSubDir: nginx
     templateArgs:
       repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
+      os: 'buster'
     tags:
       - '1.20.1-debian9'
       - '1.20-debian9'
