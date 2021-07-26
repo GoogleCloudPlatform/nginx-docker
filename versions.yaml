@@ -29,6 +29,28 @@ _variables:
     gpg: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
 
 versions:
+  - dir: '1/debian10/1.20.1'
+    repo: nginx1
+    templateSubDir: nginx
+    templateArgs:
+      repo: 'http://nginx.org/packages/debian/'
+      os: 'buster'
+    tags:
+      - '1.20.1-debian10'
+      - '1.20-debian10'
+      - '1.20.1'
+      - '1.20'
+      - 'stable'
+      - 'latest'
+    from: gcr.io/google-appengine/debian10
+    packages:
+      nginx:
+        gpg: *gpg
+        version: '1.20.1'
+    excludeTests:
+    - tests/functional_tests/nginx_with_exporter_test.yaml
+    - tests/functional_tests/nginx_exporter_standalone_test.yaml
+    
   - dir: '1/debian9/1.16'
     repo: nginx1
     templateSubDir: nginx
@@ -40,8 +62,6 @@ versions:
       - '1.16-debian9'
       - '1.16.1'
       - '1.16'
-      - 'stable'
-      - 'latest'
     from: *from9
     packages:
       nginx:
