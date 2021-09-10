@@ -243,7 +243,7 @@ curl http://localhost
 
 # <a name="using-docker"></a>Using Docker
 
-Consult [marketplace container documentation](https://cloud.google.com/marketplace/docs/marketplace-container)
+Consult [marketplace container documentation](https://cloud.google.com/marketplace/docs/container-images)
 for additional information about setting up your Docker environment.
 
 ## <a name="running-nginx-docker"></a>Running Nginx
