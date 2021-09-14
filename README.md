@@ -70,7 +70,7 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx1
+    - image: marketplace.gcr.io/google/nginx1
       name: nginx
 ```
 
@@ -108,7 +108,7 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx1
+    - image: marketplace.gcr.io/google/nginx1
       name: nginx
       volumeMounts:
         - name: webcontent
@@ -178,7 +178,7 @@ metadata:
     name: some-nginx
 spec:
   containers:
-    - image: launcher.gcr.io/google/nginx1
+    - image: marketplace.gcr.io/google/nginx1
       name: nginx
       volumeMounts:
         - name: site-conf
@@ -243,7 +243,7 @@ curl http://localhost
 
 # <a name="using-docker"></a>Using Docker
 
-Consult [Launcher container documentation](https://cloud.google.com/launcher/docs/launcher-container)
+Consult [Marketplace container documentation](https://cloud.google.com/marketplace/docs/container-images)
 for additional information about setting up your Docker environment.
 
 ## <a name="running-nginx-docker"></a>Running Nginx
@@ -257,7 +257,7 @@ version: '2'
 services:
   nginx:
     container_name: some-nginx
-    image: launcher.gcr.io/google/nginx1
+    image: marketplace.gcr.io/google/nginx1
     ports:
       - '80:80'
       - '443:443'
@@ -271,7 +271,7 @@ docker run \
   -p 80:80 \
   -p 443:443 \
   -d \
-  launcher.gcr.io/google/nginx1
+  marketplace.gcr.io/google/nginx1
 ```
 
 For information about how to retain your data across restarts, see [Use a persistent data volume](#use-a-persistent-data-volume-docker).
@@ -294,7 +294,7 @@ version: '2'
 services:
   nginx:
     container_name: some-nginx
-    image: launcher.gcr.io/google/nginx1
+    image: marketplace.gcr.io/google/nginx1
     ports:
       - '80:80'
       - '443:443'
@@ -311,7 +311,7 @@ docker run \
   -p 443:443 \
   -v /my/persistent/dir/www:/usr/share/nginx/html \
   -d \
-  launcher.gcr.io/google/nginx1
+  marketplace.gcr.io/google/nginx1
 ```
 
 The web server configuration should also be on a persistent volume. For more information, see [Web server configuration](#configuration-docker).
@@ -337,7 +337,7 @@ version: '2'
 services:
   nginx:
     container_name: some-nginx
-    image: launcher.gcr.io/google/nginx1
+    image: marketplace.gcr.io/google/nginx1
     ports:
       - '80:80'
       - '443:443'
@@ -354,7 +354,7 @@ docker run \
   -p 443:443 \
   -v /path/to/your/site.conf:/etc/nginx/conf.d/site.conf \
   -d \
-  launcher.gcr.io/google/nginx1
+  marketplace.gcr.io/google/nginx1
 ```
 
 ### <a name="move-web-content-docker"></a>Moving the web content to Nginx
