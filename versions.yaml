@@ -50,7 +50,7 @@ versions:
     excludeTests:
     - tests/functional_tests/nginx_with_exporter_test.yaml
     - tests/functional_tests/nginx_exporter_standalone_test.yaml
-    
+
   - dir: '1/debian9/1.16'
     repo: nginx1
     templateSubDir: nginx
@@ -93,12 +93,12 @@ versions:
     - tests/functional_tests/nginx_exporter_standalone_test.yaml
 
   - dir: 'exporter'
-    repo: nginx1
+    repo: nginx-exporter0
     templateSubDir: exporter
     tags:
-      - 'exporter'
-      - 'exporter-0.7'
-      - 'exporter-0.7.0'
+      - 0.7.0
+      - '0.7'
+      - '0'
     from: *from9
     packages:
         exporter: *exporter
