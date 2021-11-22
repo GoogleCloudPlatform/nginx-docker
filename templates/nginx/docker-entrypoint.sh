@@ -17,7 +17,12 @@
 set -e
 
 if [[ "${ENABLE_STUB_STATUS}" == "true" ]]; then
-    mv -f /etc/nginx/stub.conf.template /etc/nginx/conf.d/stub.conf
+  declare -r stub_config="/etc/nginx/conf.d/stub.conf"
+
+  mv -f /etc/nginx/stub.conf.template "${stub_config}"
+  if [[ "${ENABLE_STUB_ALL_HOSTS}" == "true" ]]; then
+    sed -i 's/127.0.0.1/0.0.0.0/g' "${stub_config}"
+  fi
 fi
 
 exec /usr/sbin/nginx -g "daemon off;"
