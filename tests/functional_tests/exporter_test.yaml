@@ -26,9 +26,7 @@
 
 setup:
 - command: [docker, network, create, -d, bridge, testbridge-$UNIQUE-id]
-# TODO(armado): after PR https://github.com/GoogleCloudPlatform/nginx-docker/pull/63 is merged and released
-# renamed the image below to launcher.gcr.io/google/nginx1:latest and use ENABLE_STUB_STATUS env var
-- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -p, '8080:8080', --net, testbridge-$UNIQUE-id, -d, 'launcher.gcr.io/google/nginx1:1.15']
+- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, --net, testbridge-$UNIQUE-id, -d, 'marketplace.gcr.io/google/nginx1:1.15']
 - command: [docker, run, --privileged=true, --name, some-nginx-exporter-$UNIQUE-id, -e, 'SCRAPE_URI=http://some-nginx-$UNIQUE-id:8080/stub_status', -p, '9113:9113', --net, testbridge-$UNIQUE-id, -d, '$IMAGE']
 - command: [sleep, 5s]
 - command: [docker, exec, some-nginx-exporter-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']

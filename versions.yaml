@@ -1,4 +1,4 @@
-# Copyright (c) 2019, Google Inc.
+# Copyright (c) 2021, Google Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -21,13 +21,6 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-_variables:
-  from9: &from9 gcr.io/google-appengine/debian9
-  gpg: &gpg 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-  exporter: &exporter
-    version: '0.7.0'
-    gpg: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
-
 versions:
   - dir: '1/debian10/1.20.1'
     repo: nginx1
@@ -45,52 +38,10 @@ versions:
     from: gcr.io/google-appengine/debian10
     packages:
       nginx:
-        gpg: *gpg
+        gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
         version: '1.20.1'
     excludeTests:
-    - tests/functional_tests/nginx_with_exporter_test.yaml
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
-
-  - dir: '1/debian9/1.16'
-    repo: nginx1
-    templateSubDir: nginx
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'stretch'
-    tags:
-      - '1.16.1-debian9'
-      - '1.16-debian9'
-      - '1.16.1'
-      - '1.16'
-    from: *from9
-    packages:
-      nginx:
-        gpg: *gpg
-        version: '1.16.1'
-    excludeTests:
-    - tests/functional_tests/nginx_with_exporter_test.yaml
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
-
-  - dir: '1/debian9/1.15'
-    repo: nginx1
-    templateSubDir: nginx-with-exporter
-    templateArgs:
-      repo: 'http://nginx.org/packages/mainline/debian/'
-      os: 'stretch'
-    tags:
-      - '1.15.12-debian9'
-      - '1.15-debian9'
-      - '1.15.12'
-      - '1.15'
-      - 'mainline'
-    from: *from9
-    packages:
-      nginx:
-        gpg: *gpg
-        version: '1.15.12'
-      exporter: *exporter
-    excludeTests:
-    - tests/functional_tests/nginx_exporter_standalone_test.yaml
+    - tests/functional_tests/exporter_test.yaml
 
   - dir: 'exporter'
     repo: nginx-exporter0
@@ -100,12 +51,13 @@ versions:
       - '0.7'
       - '0'
       - 'latest'
-    from: *from9
+    from: marketplace.gcr.io/google/debian9
     packages:
-        exporter: *exporter
+        exporter:
+          version: '0.7.0'
+          sha256: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
     excludeTests:
-    - tests/functional_tests/nginx_webserver_test.yaml
-    - tests/functional_tests/nginx_with_exporter_test.yaml
+    - tests/functional_tests/nginx_test.yaml
 
 cloudbuild:
   enable_parallel: false
