@@ -1,4 +1,4 @@
-FROM gcr.io/google-appengine/debian10
+FROM marketplace.gcr.io/google/debian10
 
 ENV NGINX_VERSION 1.20.1*
 ENV C2D_RELEASE 1.20.1
