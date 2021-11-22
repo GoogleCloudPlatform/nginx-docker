@@ -26,7 +26,8 @@
 
 setup:
 - command: [docker, network, create, -d, bridge, testbridge-$UNIQUE-id]
-- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -p, '8080:8080', --net, testbridge-$UNIQUE-id, -d, 'marketplace.gcr.io/google/nginx1']
+- command: [docker, run, --privileged=true, --name, some-nginx-$UNIQUE-id, -e, 'ENABLE_STUB_STATUS=true', -p, '8080:8080', --net, testbridge-$UNIQUE-id, -d, 'marketplace.gcr.io/google/nginx1']
+- command: [sleep, 5s]
 - command: [docker, run, --privileged=true, --name, some-nginx-exporter-$UNIQUE-id, -e, 'SCRAPE_URI=http://some-nginx-$UNIQUE-id:8080/stub_status', -p, '9113:9113', --net, testbridge-$UNIQUE-id, -d, '$IMAGE']
 - command: [sleep, 5s]
 - command: [docker, exec, some-nginx-exporter-$UNIQUE-id, sh, -c, 'apt-get update && apt-get install -y curl']
