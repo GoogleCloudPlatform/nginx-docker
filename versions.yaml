@@ -55,7 +55,7 @@ versions:
     packages:
         exporter:
           version: '0.7.0'
-          gpg: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
+          sha256: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
     excludeTests:
     - tests/functional_tests/nginx_test.yaml
 
