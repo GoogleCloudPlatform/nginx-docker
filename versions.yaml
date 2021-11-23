@@ -1,63 +1,62 @@
-# Copyright (c) 2021, Google Inc.
-# All rights reserved.
+# Copyright 2021 Google LLC
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
+# Redistribution and use in source and binary forms, with or without modification, are permitted
+# provided that the following conditions are met:
 #
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
+# 1. Redistributions of source code must retain the above copyright notice, this list of conditions
+# and the following disclaimer.
 #
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+# and the following disclaimer in the documentation and/or other materials provided with
+# the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+# FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+# WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-versions:
-  - dir: '1/debian10/1.20.1'
-    repo: nginx1
-    templateSubDir: nginx
-    templateArgs:
-      repo: 'http://nginx.org/packages/debian/'
-      os: 'buster'
-    tags:
-      - '1.20.1-debian10'
-      - '1.20-debian10'
-      - '1.20.1'
-      - '1.20'
-      - 'stable'
-      - 'latest'
-    from: gcr.io/google-appengine/debian10
-    packages:
-      nginx:
-        gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
-        version: '1.20.1'
-    excludeTests:
-    - tests/functional_tests/exporter_test.yaml
-
-  - dir: 'exporter'
-    repo: nginx-exporter0
-    templateSubDir: exporter
-    tags:
-      - 0.7.0
-      - '0.7'
-      - '0'
-      - 'latest'
-    from: marketplace.gcr.io/google/debian9
-    packages:
-        exporter:
-          version: '0.7.0'
-          sha256: '08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6'
-    excludeTests:
-    - tests/functional_tests/nginx_test.yaml
 
 cloudbuild:
   enable_parallel: false
+versions:
+- dir: 1/debian10/1.20
+  excludeTests:
+  - tests/functional_tests/exporter_test.yaml
+  from: marketplace.gcr.io/google/debian10
+  packages:
+    nginx:
+      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+      version: 1.20.1
+  repo: nginx1
+  tags:
+  - 1.20.1-debian10
+  - 1.20-debian10
+  - 1-debian10
+  - 1.20.1
+  - '1.20'
+  - '1'
+  - latest
+  templateArgs:
+    os: buster
+    repo: http://nginx.org/packages/debian/
+  templateSubDir: nginx
+- dir: exporter
+  excludeTests:
+  - tests/functional_tests/nginx_test.yaml
+  from: marketplace.gcr.io/google/debian9
+  packages:
+    exporter:
+      sha256: 08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6
+      version: 0.7.0
+  repo: nginx-exporter0
+  tags:
+  - 0.7.0
+  - '0.7'
+  - '0'
+  - latest
+  templateSubDir: exporter
+
