@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/debian9
+FROM marketplace.gcr.io/google/debian11
 
 ENV EXPORTER_VERSION 0.7.0
 ENV EXPORTER_SHA256 08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6

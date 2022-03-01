@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Redistribution and use in source and binary forms, with or without modification, are permitted
 # provided that the following conditions are met:
@@ -23,7 +23,7 @@
 cloudbuild:
   enable_parallel: false
 versions:
-- dir: 1/debian10/1.20
+- dir: 1/debian11/1.20
   excludeTests:
   - tests/functional_tests/exporter_test.yaml
   from: marketplace.gcr.io/google/debian10
@@ -33,9 +33,9 @@ versions:
       version: 1.20.2
   repo: nginx1
   tags:
-  - 1.20.2-debian10
-  - 1.20-debian10
-  - 1-debian10
+  - 1.20.2-debian11
+  - 1.20-debian11
+  - 1-debian11
   - 1.20.2
   - '1.20'
   - '1'
@@ -47,7 +47,7 @@ versions:
 - dir: exporter
   excludeTests:
   - tests/functional_tests/nginx_test.yaml
-  from: marketplace.gcr.io/google/debian9
+  from: marketplace.gcr.io/google/debian11
   packages:
     exporter:
       sha256: 08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6
