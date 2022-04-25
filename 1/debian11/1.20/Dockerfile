@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/debian10
+FROM marketplace.gcr.io/google/debian11
 
 ENV NGINX_VERSION 1.20.2*
 ENV C2D_RELEASE 1.20.2
@@ -14,7 +14,7 @@ RUN set -x \
         && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
-        && echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list \
+        && echo "deb http://nginx.org/packages/debian/ bullseye nginx" >> /etc/apt/sources.list \
         && wget http://nginx.org/packages/keys/nginx_signing.key \
         && apt-key add nginx_signing.key \
         && apt-get update \
