@@ -10,6 +10,7 @@ RUN set -x \
         && apt-get install -y \
                 openssl \
                 wget \
+                libtasn1-6 \
         && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \

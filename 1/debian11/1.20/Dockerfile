@@ -11,6 +11,7 @@ RUN set -x \
                 dirmngr \
                 gnupg \
                 wget \
+                libtasn1-6 \
         && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
