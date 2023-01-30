@@ -23,23 +23,39 @@
 cloudbuild:
   enable_parallel: false
 versions:
+- dir: 1/debian11/1.23
+  excludeTests:
+  - tests/functional_tests/exporter_test.yaml
+  from: marketplace.gcr.io/google/debian11
+  packages:
+    nginx:
+      version: 1.23.3
+  repo: nginx1
+  tags:
+  - 1.23.3-debian11
+  - 1.23-debian11
+  - 1-debian11
+  - 1.23.3
+  - '1.23'
+  - '1'
+  - latest
+  templateArgs:
+    os: bullseye
+    repo: http://nginx.org/packages/mainline/debian/
+  templateSubDir: nginx
 - dir: 1/debian11/1.22
   excludeTests:
   - tests/functional_tests/exporter_test.yaml
   from: marketplace.gcr.io/google/debian11
   packages:
     nginx:
-      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
       version: 1.22.0
   repo: nginx1
   tags:
   - 1.22.0-debian11
   - 1.22-debian11
-  - 1-debian11
   - 1.22.0
   - '1.22'
-  - '1'
-  - latest
   templateArgs:
     os: bullseye
     repo: http://nginx.org/packages/debian/
@@ -50,7 +66,6 @@ versions:
   from: marketplace.gcr.io/google/debian11
   packages:
     nginx:
-      gpg: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
       version: 1.20.2
   repo: nginx1
   tags:
@@ -68,7 +83,6 @@ versions:
   from: marketplace.gcr.io/google/debian11
   packages:
     exporter:
-      sha256: 08a0a054aecedec4aa2772569325a346403d2c1fba6f88739553416c2f4f77e6
       version: 0.7.0
   repo: nginx-exporter0
   tags:
