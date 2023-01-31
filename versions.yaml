@@ -83,11 +83,11 @@ versions:
   from: marketplace.gcr.io/google/debian11
   packages:
     exporter:
-      version: 0.7.0
+      version: 0.11.0
   repo: nginx-exporter0
   tags:
-  - 0.7.0
-  - '0.7'
+  - 0.11.0
+  - '0.11'
   - '0'
   - latest
   templateSubDir: exporter
