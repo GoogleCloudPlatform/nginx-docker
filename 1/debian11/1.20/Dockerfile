@@ -1,4 +1,4 @@
-FROM marketplace.gcr.io/google/debian11
+FROM marketplace.gcr.io/google/c2d-debian11
 
 ENV NGINX_VERSION 1.20.2*
 ENV C2D_RELEASE 1.20.2
