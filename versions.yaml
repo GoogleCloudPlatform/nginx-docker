@@ -29,50 +29,16 @@ versions:
   from: marketplace.gcr.io/google/c2d-debian11
   packages:
     nginx:
-      version: 1.23.3
+      version: 1.23.4
   repo: nginx1
   tags:
-  - 1.23.3-debian11
+  - 1.23.4-debian11
   - 1.23-debian11
   - 1-debian11
-  - 1.23.3
+  - 1.23.4
   - '1.23'
   - '1'
   - latest
-  templateArgs:
-    os: bullseye
-    repo: http://nginx.org/packages/mainline/debian/
-  templateSubDir: nginx
-- dir: 1/debian11/1.22
-  excludeTests:
-  - tests/functional_tests/exporter_test.yaml
-  from: marketplace.gcr.io/google/c2d-debian11
-  packages:
-    nginx:
-      version: 1.22.0
-  repo: nginx1
-  tags:
-  - 1.22.0-debian11
-  - 1.22-debian11
-  - 1.22.0
-  - '1.22'
-  templateArgs:
-    os: bullseye
-    repo: http://nginx.org/packages/debian/
-  templateSubDir: nginx
-- dir: 1/debian11/1.20
-  excludeTests:
-  - tests/functional_tests/exporter_test.yaml
-  from: marketplace.gcr.io/google/c2d-debian11
-  packages:
-    nginx:
-      version: 1.20.2
-  repo: nginx1
-  tags:
-  - 1.20.2-debian11
-  - 1.20-debian11
-  - 1.20.2
-  - '1.20'
   templateArgs:
     os: bullseye
     repo: http://nginx.org/packages/debian/
