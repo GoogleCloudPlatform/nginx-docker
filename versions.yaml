@@ -41,7 +41,7 @@ versions:
   - latest
   templateArgs:
     os: bullseye
-    repo: http://nginx.org/packages/debian/
+    repo: http://nginx.org/packages/mainline/debian/
   templateSubDir: nginx
 - dir: exporter
   excludeTests:
@@ -57,4 +57,3 @@ versions:
   - '0'
   - latest
   templateSubDir: exporter
-
