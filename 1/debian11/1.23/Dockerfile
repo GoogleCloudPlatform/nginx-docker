@@ -1,6 +1,6 @@
 FROM marketplace.gcr.io/google/c2d-debian11
 
-ENV NGINX_VERSION 1.23.4*
+ENV NGINX_VERSION 1.23.4
 ENV C2D_RELEASE 1.23.4
 
 ENV ENABLE_STUB_STATUS false

@@ -6,7 +6,7 @@ FROM {{ .From }}
 {{- $repo := index .TemplateArgs "repo" }}
 {{- $os := index .TemplateArgs "os" }}
 
-ENV NGINX_VERSION {{ $nginx.Version }}*
+ENV NGINX_VERSION {{ $nginx.Version }}
 ENV C2D_RELEASE {{ $nginx.Version }}
 
 ENV ENABLE_STUB_STATUS false
