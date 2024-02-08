@@ -1,4 +1,4 @@
-# Copyright 2023 Google LLC
+# Copyright 2024 Google LLC
 #
 # Redistribution and use in source and binary forms, with or without modification, are permitted
 # provided that the following conditions are met:
@@ -29,13 +29,13 @@ versions:
   from: marketplace.gcr.io/google/c2d-debian11
   packages:
     nginx:
-      version: 1.25.2
+      version: 1.25.3
   repo: nginx1
   tags:
-  - 1.25.2-debian11
+  - 1.25.3-debian11
   - 1.25-debian11
   - 1-debian11
-  - 1.25.2
+  - 1.25.3
   - '1.25'
   - '1'
   - latest
@@ -69,8 +69,8 @@ versions:
       version: 0.11.0
   repo: nginx-exporter0
   tags:
-  - 0.11.0
-  - '0.11'
+  - 0.14.0
+  - '0.14'
   - '0'
   - latest
   templateSubDir: exporter
