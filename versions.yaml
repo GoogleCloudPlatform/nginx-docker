@@ -1,4 +1,4 @@
-# Copyright 2023 Google LLC
+# Copyright 2024 Google LLC
 #
 # Redistribution and use in source and binary forms, with or without modification, are permitted
 # provided that the following conditions are met:
@@ -23,6 +23,26 @@
 cloudbuild:
   enable_parallel: false
 versions:
+- dir: 1/debian11/1.26
+  excludeTests:
+  - tests/functional_tests/exporter_test.yaml
+  from: marketplace.gcr.io/google/debian12
+  packages:
+    nginx:
+      version: 1.26.1
+  repo: nginx1
+  tags:
+  - 1.26.1-debian11
+  - 1.26-debian11
+  - 1-debian11
+  - 1.26.1
+  - '1.26'
+  - '1'
+  - latest
+  templateArgs:
+    os: bookworm
+    repo: http://nginx.org/packages/debian/
+  templateSubDir: nginx
 - dir: 1/debian11/1.25
   excludeTests:
   - tests/functional_tests/exporter_test.yaml
@@ -34,28 +54,8 @@ versions:
   tags:
   - 1.25.2-debian11
   - 1.25-debian11
-  - 1-debian11
   - 1.25.2
   - '1.25'
-  - '1'
-  - latest
-  templateArgs:
-    os: bullseye
-    repo: http://nginx.org/packages/mainline/debian/
-  templateSubDir: nginx
-- dir: 1/debian11/1.23
-  excludeTests:
-  - tests/functional_tests/exporter_test.yaml
-  from: marketplace.gcr.io/google/c2d-debian11
-  packages:
-    nginx:
-      version: 1.23.4
-  repo: nginx1
-  tags:
-  - 1.23.4-debian11
-  - 1.23-debian11
-  - 1.23.4
-  - '1.23'
   templateArgs:
     os: bullseye
     repo: http://nginx.org/packages/mainline/debian/
@@ -74,4 +74,3 @@ versions:
   - '0'
   - latest
   templateSubDir: exporter
-
