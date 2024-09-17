@@ -1,6 +1,6 @@
-FROM marketplace.gcr.io/google/c2d-debian11
+FROM marketplace.gcr.io/google/debian12
 
-ENV EXPORTER_VERSION 0.11.0
+ENV EXPORTER_VERSION 1.3.0
 
 COPY licenses/ /usr/share/doc/
 
