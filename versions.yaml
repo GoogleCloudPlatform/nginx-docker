@@ -23,19 +23,19 @@
 cloudbuild:
   enable_parallel: false
 versions:
-- dir: 1/debian11/1.26
+- dir: 1/debian12/1.26
   excludeTests:
   - tests/functional_tests/exporter_test.yaml
   from: marketplace.gcr.io/google/debian12
   packages:
     nginx:
-      version: 1.26.1
+      version: 1.26.2
   repo: nginx1
   tags:
-  - 1.26.1-debian11
-  - 1.26-debian11
-  - 1-debian11
-  - 1.26.1
+  - 1.26.2-debian12
+  - 1.26-debian12
+  - 1-debian12
+  - 1.26.2
   - '1.26'
   - '1'
   - latest
@@ -43,34 +43,17 @@ versions:
     os: bookworm
     repo: http://nginx.org/packages/debian/
   templateSubDir: nginx
-- dir: 1/debian11/1.25
-  excludeTests:
-  - tests/functional_tests/exporter_test.yaml
-  from: marketplace.gcr.io/google/c2d-debian11
-  packages:
-    nginx:
-      version: 1.25.2
-  repo: nginx1
-  tags:
-  - 1.25.2-debian11
-  - 1.25-debian11
-  - 1.25.2
-  - '1.25'
-  templateArgs:
-    os: bullseye
-    repo: http://nginx.org/packages/mainline/debian/
-  templateSubDir: nginx
 - dir: exporter
   excludeTests:
   - tests/functional_tests/nginx_test.yaml
-  from: marketplace.gcr.io/google/c2d-debian11
+  from: marketplace.gcr.io/google/debian12
   packages:
     exporter:
-      version: 0.11.0
-  repo: nginx-exporter0
+      version: 1.3.0
+  repo: nginx-exporter1
   tags:
-  - 0.11.0
-  - '0.11'
-  - '0'
+  - 1.3.0
+  - '1.3'
+  - '1'
   - latest
   templateSubDir: exporter
