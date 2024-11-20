@@ -21,6 +21,7 @@
 
 
 cloudbuild:
+  docker_image: gcr.io/cloud-builders/docker:24.0.9
   enable_parallel: false
 versions:
 - dir: 1/debian12/1.26
@@ -31,6 +32,9 @@ versions:
     nginx:
       version: 1.26.2
   repo: nginx1
+  annotations:
+  - key: com.googleapis.cloudmarketplace.product.service.name
+    value: services/2e7c2687-3a3c-465b-84e9-ee17fc5f89fd.cloudpartnerservices.goog
   tags:
   - 1.26.2-debian12
   - 1.26-debian12
@@ -51,6 +55,9 @@ versions:
     exporter:
       version: 1.3.0
   repo: nginx-exporter1
+  annotations:
+  - key: com.googleapis.cloudmarketplace.product.service.name
+    value: null
   tags:
   - 1.3.0
   - '1.3'
