@@ -57,7 +57,7 @@ versions:
   repo: nginx-exporter1
   annotations:
   - key: com.googleapis.cloudmarketplace.product.service.name
-    value: null
+    value: services/dda4477e-0715-4738-9c5f-4d73e19bac3d.cloudpartnerservices.goog
   tags:
   - 1.3.0
   - '1.3'
